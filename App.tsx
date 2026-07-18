@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { Analytics } from "@vercel/analytics/react";
 import "./src/i18n";
 import { RootStackParamList } from "./src/nav";
 import { useStore } from "./src/store";
@@ -88,6 +89,7 @@ export default function App() {
           <Stack.Screen name="About" component={AboutScreen} options={{ title: t("aboutTitle") }} />
         </Stack.Navigator>
       </NavigationContainer>
+      {Platform.OS === 'web' && <Analytics />}
       </ErrorBoundary>
     </SafeAreaProvider>
   );
