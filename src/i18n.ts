@@ -1,0 +1,132 @@
+// Bangla-FIRST i18n. bn is the default on first launch (gate H2); toggle persists (lcai-lang-v1).
+// Icons are rendered by the UI kit (Ionicons) — strings stay emoji-free.
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+
+export const LANG_KEY = "lcai-lang-v1";
+
+const resources = {
+  bn: {
+    translation: {
+      appName: "LawCosmosAI",
+      tagline: "আইন জানুন। খরচ জানুন। আইনজীবী নিন।",
+      askPlaceholder: "আপনার প্রশ্ন লিখুন… (যেমন: যৌতুক চাওয়া কি অপরাধ?)",
+      askBtn: "জিজ্ঞাসা করুন",
+      photoBtn: "ছবি বিশ্লেষণ",
+      pdfBtn: "পিডিএফ বিশ্লেষণ",
+      historyBtn: "ইতিহাস",
+      lawyersBtn: "আইনজীবী তালিকা",
+      aboutBtn: "গোপনীয়তা ও শর্তাবলী",
+      answerTitle: "উত্তর",
+      lawLabel: "প্রযোজ্য আইন",
+      verdictLabel: "সিদ্ধান্ত",
+      penaltyLabel: "আইন ভাঙার খরচ",
+      nextLabel: "এখন কী করবেন",
+      illegal: "অবৈধ / অপরাধ",
+      civil: "ফৌজদারি অপরাধ নয় — দেওয়ানি প্রতিকার আছে",
+      cannotVerify: "যাচাই করা যায়নি",
+      cannotVerifyBody:
+        "এই প্রশ্নের উত্তর আমাদের যাচাইকৃত আইন ভান্ডারে পাওয়া যায়নি। আমরা অনুমান করে উত্তর দিই না। একজন আইনজীবীর সাথে কথা বলুন।",
+      needLawyer: "আইনজীবী দরকার?",
+      disclaimer: "এটি আইনি তথ্য, আইনি পরামর্শ নয়। গুরুত্বপূর্ণ সিদ্ধান্তের আগে একজন আইনজীবীর পরামর্শ নিন।",
+      demoAnalysis: "ডেমো বিশ্লেষণ (অফলাইন ক্যাশ) — প্রোটোটাইপে ছবি/পিডিএফ ক্যাশ থেকে বিশ্লেষিত হয়",
+      couldntRead: "ফাইলটি পড়া যায়নি বা কোনো আইনি বিষয় শনাক্ত হয়নি। পরিষ্কার ছবি/ফাইল দিয়ে আবার চেষ্টা করুন, অথবা আইনজীবীর সাথে কথা বলুন।",
+      sourceLabel: "সূত্র",
+      verifiedLabel: "সর্বশেষ যাচাই",
+      pendingVerify: "যাচাই অপেক্ষমাণ",
+      historyTitle: "প্রশ্নের ইতিহাস",
+      historyEmpty: "এখনো কোনো প্রশ্ন করা হয়নি।",
+      clearHistory: "ইতিহাস মুছুন",
+      lawyersTitle: "আইনজীবী তালিকা",
+      demoData: "ডেমো ডেটা — এগুলো বাস্তব আইনজীবী নন",
+      years: "বছরের অভিজ্ঞতা",
+      feeLabel: "পরামর্শ ফি",
+      bookBtn: "বুকিং করুন",
+      bookingTitle: "বুকিং",
+      bookingSlot: "আগামীকাল বিকাল ৪টা (ডেমো স্লট)",
+      payBtn: "bKash দিয়ে পেমেন্ট (ডেমো)",
+      paymentTitle: "bKash পেমেন্ট (স্যান্ডবক্স)",
+      paymentDemo: "ডেমো পেমেন্ট — কোনো টাকা কাটা হবে না, কোনো বাস্তব বুকিং হবে না",
+      payNow: "পেমেন্ট সম্পন্ন করুন (ডেমো)",
+      paymentDone: "ডেমো পেমেন্ট সফল! (কোনো বাস্তব লেনদেন হয়নি)",
+      backHome: "হোমে ফিরুন",
+      aboutTitle: "গোপনীয়তা ও শর্তাবলী",
+      langToggle: "English",
+      specialty_traffic: "সড়ক ও যানবাহন আইন",
+      specialty_family: "পারিবারিক আইন",
+      specialty_land: "ভূমি ও সম্পত্তি আইন",
+      corpusNote: "আইন ভান্ডার সংস্করণ",
+      contact: "যোগাযোগ / ভুল উত্তর রিপোর্ট করুন",
+      privacyNote:
+        "গোপনীয়তা (খসড়া — চূড়ান্ত অনুমোদন বাকি): আপনার প্রশ্ন ও ফাইল এই প্রোটোটাইপে ডিভাইসেই প্রসেস হয়; কোনো সার্ভারে পাঠানো বা সংরক্ষণ করা হয় না। প্রশ্নের ইতিহাস শুধু আপনার ফোনে (AsyncStorage) থাকে — ইতিহাস মুছলে তা মুছে যায়। কোনো অ্যানালিটিক্স ট্র্যাকার নেই। ভবিষ্যতে সার্ভার/AI যুক্ত হলে এই নোট হালনাগাদ হবে।",
+      termsNote:
+        "শর্তাবলী (খসড়া — চূড়ান্ত অনুমোদন বাকি): এই অ্যাপ আইনি তথ্য দেয়, আইনি পরামর্শ নয়; এতে আইনজীবী-মক্কেল সম্পর্ক তৈরি হয় না। আইনজীবী তালিকা ও পেমেন্ট স্ক্রিন সম্পূর্ণ ডেমো। দণ্ড/জরিমানার তথ্য 'সর্বশেষ যাচাই' তারিখ অনুযায়ী — আইন পরিবর্তিত হতে পারে।",
+    },
+  },
+  en: {
+    translation: {
+      appName: "LawCosmosAI",
+      tagline: "Know the law. Know the cost. Get a lawyer.",
+      askPlaceholder: "Type your question… (e.g., Is demanding dowry a crime?)",
+      askBtn: "Ask",
+      photoBtn: "Analyze photo",
+      pdfBtn: "Analyze PDF",
+      historyBtn: "History",
+      lawyersBtn: "Lawyer directory",
+      aboutBtn: "Privacy & Terms",
+      answerTitle: "Answer",
+      lawLabel: "Applicable law",
+      verdictLabel: "Verdict",
+      penaltyLabel: "Law break cost",
+      nextLabel: "What to do now",
+      illegal: "Illegal / an offence",
+      civil: "Not a criminal offence — civil remedy available",
+      cannotVerify: "Cannot verify",
+      cannotVerifyBody:
+        "We couldn't find this in our verified law corpus. We never guess. Please talk to a lawyer.",
+      needLawyer: "Need a lawyer?",
+      disclaimer: "This is legal information, not legal advice. Consult a lawyer before important decisions.",
+      demoAnalysis: "Demo analysis (offline cache) — photos/PDFs are analyzed from cache in this prototype",
+      couldntRead: "Couldn't read this file or no legal subject was detected. Try a clearer photo/file, or talk to a lawyer.",
+      sourceLabel: "Source",
+      verifiedLabel: "Last verified",
+      pendingVerify: "verification pending",
+      historyTitle: "Question history",
+      historyEmpty: "No questions asked yet.",
+      clearHistory: "Clear history",
+      lawyersTitle: "Lawyer directory",
+      demoData: "DEMO DATA — these are not real lawyers",
+      years: "years experience",
+      feeLabel: "Consultation fee",
+      bookBtn: "Book",
+      bookingTitle: "Booking",
+      bookingSlot: "Tomorrow 4:00 PM (demo slot)",
+      payBtn: "Pay with bKash (DEMO)",
+      paymentTitle: "bKash Payment (SANDBOX)",
+      paymentDemo: "DEMO payment — no money moves, no real booking is created",
+      payNow: "Complete payment (DEMO)",
+      paymentDone: "Demo payment successful! (No real transaction occurred)",
+      backHome: "Back to home",
+      aboutTitle: "Privacy & Terms",
+      langToggle: "বাংলা",
+      specialty_traffic: "Traffic & transport law",
+      specialty_family: "Family law",
+      specialty_land: "Land & property law",
+      corpusNote: "Law corpus version",
+      contact: "Contact / report a wrong answer",
+      privacyNote:
+        "Privacy (DRAFT — pending final approval): In this prototype your questions and files are processed on-device only; nothing is sent to or stored on a server. Question history lives only on your phone (AsyncStorage) and is deleted when you clear it. No analytics trackers. This note will be updated if a server/AI backend is added.",
+      termsNote:
+        "Terms (DRAFT — pending final approval): This app provides legal information, not legal advice; no lawyer-client relationship is created. The lawyer list and payment screens are entirely demo. Penalty figures reflect each entry's 'last verified' date — laws may change.",
+    },
+  },
+};
+
+i18n.use(initReactI18next).init({
+  resources,
+  lng: "bn", // Bangla FIRST — persisted choice is applied at app start from AsyncStorage
+  fallbackLng: "bn",
+  interpolation: { escapeValue: false },
+});
+
+export default i18n;
