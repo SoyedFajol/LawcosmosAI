@@ -47,13 +47,14 @@ npm run build:web     # static web build -> dist/
 
 ## Architecture
 
-Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retrieval in [src/engine.ts](src/engine.ts). `ask()` / `analyzeImage()` / `analyzePdf()` are the seams for a future RAG/OCR backend. State: zustand + AsyncStorage ([src/store.ts](src/store.ts)). UI: design-token kit in [src/ui.tsx](src/ui.tsx) — the "Constellation" identity: Bangladesh bottle green + courtroom brass on green mist, with the constellation-scales mark (regenerate icons via `node scripts/gen-icons.js`).
+Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retrieval in [src/engine.ts](src/engine.ts). When the corpus can't answer, users may opt in per-question to **Ask AI (beta)**: [api/ask.js](api/ask.js) (Vercel serverless) calls Google Gemini free tier with a server-enforced Bangladesh-law-only scope — the key stays server-side; enable with `npx vercel env add GEMINI_API_KEY production` (free key: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)). See [SKILLS.md](SKILLS.md) for the full build/maintenance guide. State: zustand + AsyncStorage ([src/store.ts](src/store.ts)). UI: design-token kit in [src/ui.tsx](src/ui.tsx) — the "Constellation" identity: Bangladesh bottle green + courtroom brass on green mist, with the constellation-scales mark (regenerate icons via `node scripts/gen-icons.js`).
 
 ## Launch status (phase 1)
 
 | Area | Status |
 |---|---|
 | Legal Q&A from cited corpus | ✅ Live — entries marked `PENDING-HUMAN` show a "verification pending" chip until human-verified against [bdlaws.minlaw.gov.bd](http://bdlaws.minlaw.gov.bd) |
+| AI fallback answers (Gemini) | 🧪 Beta — opt-in per question, labeled unverified, activates once `GEMINI_API_KEY` is set on Vercel |
 | Photo / PDF analysis | 🧪 Offline demo cache (labeled in-app) — real OCR backend is phase 2 |
 | Lawyer directory & booking | 🧪 Demo data (labeled in-app) — real lawyer onboarding is phase 2 |
 | bKash payment | 🧪 Sandbox only (labeled in-app) — no real money moves |

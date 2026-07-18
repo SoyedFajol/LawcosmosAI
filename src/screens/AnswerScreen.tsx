@@ -1,11 +1,12 @@
 // THE ANSWER CARD — the one screen the whole product lives on.
 // 5 fields: law+citation, verdict, penalty, next steps, lawyer button. Disclaimer ALWAYS (A6).
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, Share, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../nav";
+import { askAI } from "../engine";
 import { useStore } from "../store";
 import { Banner, Btn, C, Card, Chip, Divider, display, FadeInUp, IconBadge, IconName, Label } from "../ui";
 
@@ -29,6 +30,19 @@ export default function AnswerScreen({ route, navigation }: Props) {
   const { answer } = route.params;
   const e = answer.entry;
   const bn = lang === "bn";
+  const [ai, setAi] = useState<string | null>(null);
+  const [aiState, setAiState] = useState<"idle" | "loading" | "failed">("idle");
+
+  const onAskAI = async () => {
+    setAiState("loading");
+    const text = await askAI(answer.query, lang);
+    if (text) {
+      setAi(text);
+      setAiState("idle");
+    } else {
+      setAiState("failed");
+    }
+  };
 
   // Answers should travel: plain-text share with citation + disclaimer + app link.
   const onShare = () => {
@@ -75,6 +89,33 @@ export default function AnswerScreen({ route, navigation }: Props) {
           {e == null && <Text style={s.offense}>{answer.source === "text" ? t("cannotVerifyBody") : t("couldntRead")}</Text>}
         </View>
       </FadeInUp>
+
+      {e == null && answer.source === "text" && (
+        <FadeInUp delay={100}>
+          {ai == null ? (
+            <>
+              <Btn
+                label={aiState === "loading" ? t("aiLoading") : t("aiAsk")}
+                icon="sparkles"
+                onPress={onAskAI}
+                disabled={aiState === "loading"}
+              />
+              {aiState === "failed" && <Banner text={t("aiFail")} />}
+            </>
+          ) : (
+            <>
+              <Card>
+                <View style={s.sectionHead}>
+                  <Ionicons name="sparkles" size={16} color={C.accentDeep} />
+                  <Label color={C.accentDeep}>{t("aiAnswerLabel")}</Label>
+                </View>
+                <Text style={s.body}>{ai}</Text>
+              </Card>
+              <Banner text={t("aiNote")} />
+            </>
+          )}
+        </FadeInUp>
+      )}
 
       {e != null && (
         <FadeInUp delay={140}>

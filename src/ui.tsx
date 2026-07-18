@@ -144,7 +144,7 @@ export function Card({ children, style, onPress }: { children: React.ReactNode; 
 
 const BTN = {
   primary: { bg: C.primary, fg: "#FFFFFF" },
-  accent: { bg: C.accent, fg: "#FFFFFF" },
+  accent: { bg: C.accent, fg: "#2A1F05" },
   success: { bg: C.ok, fg: "#FFFFFF" },
   danger: { bg: C.danger, fg: "#FFFFFF" },
   bkash: { bg: C.bkash, fg: "#FFFFFF" },

@@ -77,3 +77,26 @@ export function analyzeImage(fileName: string, now: number): Answer {
 export function analyzePdf(fileName: string, now: number): Answer {
   return demoAnalyze(fileName, "pdf", now);
 }
+
+// AI fallback (beta): opt-in only, hit when the corpus can't answer and the user taps
+// "Ask AI". The endpoint enforces the Bangladesh-law-only scope server-side (api/ask.js).
+export const AI_ENDPOINT = "https://lawcosmosai.vercel.app/api/ask";
+
+export async function askAI(q: string, lang: "bn" | "en"): Promise<string | null> {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15_000);
+    const res = await fetch(AI_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ q: q.slice(0, MAX_QUERY_LEN), lang }),
+      signal: ctrl.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return typeof data.text === "string" && data.text.trim() ? data.text : null;
+  } catch {
+    return null; // offline / timeout / not configured — caller shows the graceful message
+  }
+}

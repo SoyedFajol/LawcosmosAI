@@ -30,6 +30,11 @@ const resources = {
       cannotVerify: "যাচাই করা যায়নি",
       cannotVerifyBody:
         "এই প্রশ্নের উত্তর আমাদের যাচাইকৃত আইন ভান্ডারে পাওয়া যায়নি। আমরা অনুমান করে উত্তর দিই না। একজন আইনজীবীর সাথে কথা বলুন।",
+      aiAsk: "AI-কে জিজ্ঞাসা করুন (বেটা)",
+      aiLoading: "AI উত্তর তৈরি করছে…",
+      aiAnswerLabel: "AI-এর উত্তর (যাচাই করা হয়নি)",
+      aiNote: "এটি AI-তৈরি উত্তর — আমাদের যাচাইকৃত আইন ভান্ডার থেকে নয়, ভুল থাকতে পারে। গুরুত্বপূর্ণ সিদ্ধান্তের আগে আইনজীবীর সাথে কথা বলুন।",
+      aiFail: "AI এখন উত্তর দিতে পারছে না (সেটআপ বা নেটওয়ার্ক সমস্যা)। পরে আবার চেষ্টা করুন।",
       needLawyer: "আইনজীবী দরকার?",
       disclaimer: "এটি আইনি তথ্য, আইনি পরামর্শ নয়। গুরুত্বপূর্ণ সিদ্ধান্তের আগে একজন আইনজীবীর পরামর্শ নিন।",
       demoAnalysis: "ডেমো বিশ্লেষণ (অফলাইন ক্যাশ) — প্রোটোটাইপে ছবি/পিডিএফ ক্যাশ থেকে বিশ্লেষিত হয়",
@@ -67,7 +72,7 @@ const resources = {
       byLine: "নির্মাণে The Mavericks",
       contact: "যোগাযোগ / ভুল উত্তর রিপোর্ট করুন",
       privacyNote:
-        "গোপনীয়তা (খসড়া — চূড়ান্ত অনুমোদন বাকি): আপনার প্রশ্ন ও ফাইল এই প্রোটোটাইপে ডিভাইসেই প্রসেস হয়; কোনো সার্ভারে পাঠানো বা সংরক্ষণ করা হয় না। প্রশ্নের ইতিহাস শুধু আপনার ফোনে (AsyncStorage) থাকে — ইতিহাস মুছলে তা মুছে যায়। ওয়েব সংস্করণে শুধু বেনামী ভিজিটর সংখ্যা গণনা হয় (Vercel Web Analytics) — কোনো কুকি নয়, কোনো ব্যক্তিগত তথ্য নয়, আপনার প্রশ্ন কখনোই নয়; মোবাইল অ্যাপে কোনো অ্যানালিটিক্স নেই। ভবিষ্যতে সার্ভার/AI যুক্ত হলে এই নোট হালনাগাদ হবে।",
+        "গোপনীয়তা (খসড়া — চূড়ান্ত অনুমোদন বাকি): আপনার প্রশ্ন ও ফাইল সাধারণত ডিভাইসেই প্রসেস হয়। একটিই ব্যতিক্রম: আপনি নিজে 'AI-কে জিজ্ঞাসা করুন (বেটা)' চাপলে শুধু সেই প্রশ্নটি আমাদের সার্ভারের মাধ্যমে Google Gemini API-তে পাঠানো হয় — উত্তর দেখানোর পর তা আমরা সংরক্ষণ করি না। প্রশ্নের ইতিহাস শুধু আপনার ফোনে (AsyncStorage) থাকে — ইতিহাস মুছলে তা মুছে যায়। ওয়েব সংস্করণে শুধু বেনামী ভিজিটর সংখ্যা গণনা হয় (Vercel Web Analytics) — কোনো কুকি নয়, কোনো ব্যক্তিগত তথ্য নয়, আপনার প্রশ্ন কখনোই নয়; মোবাইল অ্যাপে কোনো অ্যানালিটিক্স নেই। ভবিষ্যতে সার্ভার/AI যুক্ত হলে এই নোট হালনাগাদ হবে।",
       termsNote:
         "শর্তাবলী (খসড়া — চূড়ান্ত অনুমোদন বাকি): এই অ্যাপ আইনি তথ্য দেয়, আইনি পরামর্শ নয়; এতে আইনজীবী-মক্কেল সম্পর্ক তৈরি হয় না। আইনজীবী তালিকা ও পেমেন্ট স্ক্রিন সম্পূর্ণ ডেমো। দণ্ড/জরিমানার তথ্য 'সর্বশেষ যাচাই' তারিখ অনুযায়ী — আইন পরিবর্তিত হতে পারে।",
     },
@@ -96,6 +101,11 @@ const resources = {
       cannotVerify: "Cannot verify",
       cannotVerifyBody:
         "We couldn't find this in our verified law corpus. We never guess. Please talk to a lawyer.",
+      aiAsk: "Ask AI (beta)",
+      aiLoading: "AI is thinking…",
+      aiAnswerLabel: "AI answer (unverified)",
+      aiNote: "This is an AI-generated answer — not from our verified law corpus and it may contain mistakes. Talk to a lawyer before important decisions.",
+      aiFail: "AI can't answer right now (setup or network issue). Try again later.",
       needLawyer: "Need a lawyer?",
       disclaimer: "This is legal information, not legal advice. Consult a lawyer before important decisions.",
       demoAnalysis: "Demo analysis (offline cache) — photos/PDFs are analyzed from cache in this prototype",
@@ -133,7 +143,7 @@ const resources = {
       byLine: "Built by The Mavericks",
       contact: "Contact / report a wrong answer",
       privacyNote:
-        "Privacy (DRAFT — pending final approval): In this prototype your questions and files are processed on-device only; nothing is sent to or stored on a server. Question history lives only on your phone (AsyncStorage) and is deleted when you clear it. The web version counts visitors anonymously (Vercel Web Analytics) — no cookies, no personal data, never your questions; the mobile app has no analytics. This note will be updated if a server/AI backend is added.",
+        "Privacy (DRAFT — pending final approval): Your questions and files are normally processed on-device. One exception: if you yourself tap 'Ask AI (beta)', that single question is sent via our server to the Google Gemini API — we do not store it after showing the answer. Question history lives only on your phone (AsyncStorage) and is deleted when you clear it. The web version counts visitors anonymously (Vercel Web Analytics) — no cookies, no personal data, never your questions; the mobile app has no analytics. This note will be updated if a server/AI backend is added.",
       termsNote:
         "Terms (DRAFT — pending final approval): This app provides legal information, not legal advice; no lawyer-client relationship is created. The lawyer list and payment screens are entirely demo. Penalty figures reflect each entry's 'last verified' date — laws may change.",
     },
