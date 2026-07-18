@@ -10,7 +10,7 @@ import { RootStackParamList } from "../nav";
 import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
 import { CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, Btn, C, Card, Chip, display, Divider, FadeInUp, IconName, Label, Tappable } from "../ui";
+import { Banner, Btn, C, Card, Chip, display, Divider, FadeInUp, IconBadge, IconName, Label, shadowLg, Tappable } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -55,37 +55,36 @@ export default function HomeScreen({ navigation }: Props) {
 
   const examples = [t("ex1"), t("ex2"), t("ex3")];
 
-  const quickLinks: { icon: IconName; label: string; go: () => void }[] = [
-    { icon: "people-outline", label: t("lawyersBtn"), go: () => navigation.navigate("Lawyers") },
-    { icon: "time-outline", label: t("historyBtn"), go: () => navigation.navigate("History") },
-    { icon: "shield-checkmark-outline", label: t("aboutBtn"), go: () => navigation.navigate("About") },
+  const tiles: { icon: IconName; label: string; go: () => void }[] = [
+    { icon: "people", label: t("lawyersBtn"), go: () => navigation.navigate("Lawyers") },
+    { icon: "time", label: t("historyBtn"), go: () => navigation.navigate("History") },
+    { icon: "shield-checkmark", label: t("aboutBtn"), go: () => navigation.navigate("About") },
   ];
 
   return (
     <ScrollView
       style={{ backgroundColor: C.bg }}
-      contentContainerStyle={[s.wrap, { paddingTop: insets.top + 16 }]}
+      contentContainerStyle={[s.wrap, { paddingTop: insets.top + 12 }]}
       keyboardShouldPersistTaps="handled"
     >
       <FadeInUp>
-        <View style={s.topRow}>
-          <View style={s.brandRow}>
-            <Image source={require("../../assets/logo-mark.png")} style={{ width: 28, height: 28 }} accessibilityLabel={t("appName")} />
-            <Text style={s.brand}>{t("appName")}</Text>
+        <View style={s.hero}>
+          <View style={s.heroTop}>
+            <View style={s.brandRow}>
+              <Image source={require("../../assets/logo-mark-brass.png")} style={{ width: 30, height: 30 }} accessibilityLabel={t("appName")} />
+              <Text style={s.brand}>{t("appName")}</Text>
+            </View>
+            <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
+              <Ionicons name="language" size={16} color="#FFFFFF" />
+              <Text style={s.langText}>{t("langToggle")}</Text>
+            </Tappable>
           </View>
-          <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
-            <Ionicons name="language" size={16} color={C.text} />
-            <Text style={s.langText}>{t("langToggle")}</Text>
-          </Tappable>
+          <Text style={s.heroTitle}>{t("tagline")}</Text>
         </View>
       </FadeInUp>
 
-      <FadeInUp delay={60}>
-        <Text style={s.title}>{t("tagline")}</Text>
-      </FadeInUp>
-
-      <FadeInUp delay={120}>
-        <Card>
+      <FadeInUp delay={80}>
+        <Card style={s.askCard}>
           <Label>{t("questionLabel")}</Label>
           <TextInput
             style={[s.input, focused && s.inputFocused]}
@@ -112,7 +111,20 @@ export default function HomeScreen({ navigation }: Props) {
         </Card>
       </FadeInUp>
 
-      <FadeInUp delay={180}>
+      <FadeInUp delay={160}>
+        <View style={s.tileRow}>
+          {tiles.map((tile) => (
+            <Tappable key={tile.label} onPress={tile.go} style={s.tile} accessibilityLabel={tile.label}>
+              <IconBadge name={tile.icon} size={44} round />
+              <Text style={s.tileText} numberOfLines={2}>
+                {tile.label}
+              </Text>
+            </Tappable>
+          ))}
+        </View>
+      </FadeInUp>
+
+      <FadeInUp delay={240}>
         <View style={s.sectionHead}>
           <Label>{t("examplesLabel")}</Label>
         </View>
@@ -121,7 +133,7 @@ export default function HomeScreen({ navigation }: Props) {
             <View key={ex}>
               {i > 0 && <Divider style={{ marginVertical: 0 }} />}
               <Tappable onPress={() => deliver(ask(ex, Date.now()))} style={s.row} accessibilityLabel={ex}>
-                <Ionicons name="help-circle-outline" size={20} color={C.primary} />
+                <IconBadge name="chatbubble-ellipses" size={32} round fg={C.primary} />
                 <Text style={s.rowText}>{ex}</Text>
                 <Ionicons name="chevron-forward" size={16} color={C.sub} />
               </Tappable>
@@ -130,25 +142,7 @@ export default function HomeScreen({ navigation }: Props) {
         </Card>
       </FadeInUp>
 
-      <FadeInUp delay={240}>
-        <View style={s.sectionHead}>
-          <Label>{t("moreLabel")}</Label>
-        </View>
-        <Card style={{ paddingVertical: 4 }}>
-          {quickLinks.map((l, i) => (
-            <View key={l.label}>
-              {i > 0 && <Divider style={{ marginVertical: 0 }} />}
-              <Tappable onPress={l.go} style={s.row} accessibilityLabel={l.label}>
-                <Ionicons name={l.icon} size={20} color={C.text} />
-                <Text style={s.rowText}>{l.label}</Text>
-                <Ionicons name="chevron-forward" size={16} color={C.sub} />
-              </Tappable>
-            </View>
-          ))}
-        </Card>
-      </FadeInUp>
-
-      <FadeInUp delay={300}>
+      <FadeInUp delay={320}>
         <View style={s.footerRow}>
           <Chip icon="library-outline" text={`${t("corpusNote")}: ${CORPUS_VERSION}`} />
           <Chip icon="globe-outline" text={lang === "bn" ? "বাংলা" : "English"} />
@@ -161,24 +155,31 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 20, paddingBottom: 32 },
-  topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  wrap: { padding: 16, paddingBottom: 32 },
+  hero: {
+    backgroundColor: C.primaryDeep,
+    borderRadius: 24,
+    padding: 20,
+    paddingBottom: 52,
+  },
+  heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  brand: { fontSize: 18, ...display, color: C.text },
+  brand: { fontSize: 18, ...display, color: "#FFFFFF" },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     minHeight: 40,
     borderWidth: 1,
-    borderColor: C.border,
-    backgroundColor: C.card,
+    borderColor: "rgba(255,255,255,0.35)",
+    backgroundColor: "rgba(255,255,255,0.12)",
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  langText: { color: C.text, fontWeight: "600", fontSize: 14 },
-  title: { fontSize: 24, ...display, lineHeight: 32, color: C.text, marginTop: 24, marginBottom: 12 },
+  langText: { color: "#FFFFFF", fontWeight: "600", fontSize: 14 },
+  heroTitle: { fontSize: 32, ...display, lineHeight: 40, color: "#FFFFFF", marginTop: 24 },
+  askCard: { marginTop: -32, marginHorizontal: 4, ...shadowLg },
   input: {
     minHeight: 96,
     maxHeight: 180,
@@ -210,7 +211,20 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
   },
   attachText: { fontSize: 14, fontWeight: "600", color: C.text },
-  sectionHead: { marginTop: 16, marginLeft: 4 },
+  tileRow: { flexDirection: "row", gap: 8, marginTop: 16, marginHorizontal: 4 },
+  tile: {
+    flex: 1,
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: C.card,
+    borderWidth: 1,
+    borderColor: C.border,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+  },
+  tileText: { fontSize: 12, fontWeight: "600", color: C.text, textAlign: "center", lineHeight: 16 },
+  sectionHead: { marginTop: 16, marginLeft: 8 },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
   rowText: { flex: 1, fontSize: 14, fontWeight: "600", color: C.text, lineHeight: 20 },
   footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 24, marginBottom: 4 },

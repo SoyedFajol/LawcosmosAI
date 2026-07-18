@@ -2,7 +2,7 @@
   "expo": {
     "name": "LawCosmosAI",
     "slug": "LawcosmosAI",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Bangla-first legal information for Bangladesh: ask a question, see the applicable law with citation, the exact penalty, and next steps. Legal information, not legal advice. Built by The Mavericks.",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "com.lawcosmosai.app",
-      "versionCode": 11,
+      "versionCode": 12,
       "adaptiveIcon": {
         "backgroundColor": "#0B4A38",
         "foregroundImage": "./assets/android-icon-foreground.png",

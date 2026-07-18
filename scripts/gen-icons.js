@@ -41,8 +41,9 @@ const jobs = [
   ["assets/favicon.png", 64, `<rect width="100" height="100" rx="22" fill="${GREEN_DEEP}"/>${placed(BRASS, 84)}`],
   // Splash: green mark on transparent (splash background color comes from app.json = mist)
   ["assets/splash-icon.png", 512, placed(GREEN, 96)],
-  // In-app header mark: green on transparent
+  // In-app header marks: green on transparent (light surfaces), brass (dark surfaces)
   ["assets/logo-mark.png", 256, placed(GREEN, 100)],
+  ["assets/logo-mark-brass.png", 256, placed(BRASS, 100)],
 ];
 
 (async () => {

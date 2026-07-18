@@ -57,6 +57,15 @@ export const shadow: ViewStyle = {
   elevation: 2,
 };
 
+/** Floating elevation — for the one card per screen that should visually lift (e.g. the question card). */
+export const shadowLg: ViewStyle = {
+  shadowColor: "#0A4534",
+  shadowOpacity: 0.14,
+  shadowRadius: 24,
+  shadowOffset: { width: 0, height: 10 },
+  elevation: 8,
+};
+
 export function useReducedMotion() {
   const [reduced, setReduced] = React.useState(false);
   React.useEffect(() => {
