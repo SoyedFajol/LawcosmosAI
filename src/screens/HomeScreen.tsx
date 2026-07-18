@@ -80,6 +80,9 @@ export default function HomeScreen({ navigation }: Props) {
     }
   };
 
+  const hour = new Date().getHours();
+  const greeting = t(hour < 12 ? "greetMorning" : hour < 17 ? "greetAfternoon" : "greetEvening");
+
   const domains: { key: "traffic" | "family" | "land"; icon: IconName }[] = [
     { key: "traffic", icon: "car" },
     { key: "family", icon: "home" },
@@ -99,19 +102,21 @@ export default function HomeScreen({ navigation }: Props) {
       keyboardShouldPersistTaps="handled"
     >
       <FadeInUp>
-        <View style={s.hero}>
-          <View style={s.heroTop}>
-            <View style={s.brandRow}>
-              <Image source={require("../../assets/logo-mark-brass.png")} style={{ width: 30, height: 30 }} accessibilityLabel={t("appName")} />
-              <Text style={s.brand}>{t("appName")}</Text>
-            </View>
-            <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
-              <Ionicons name="language" size={16} color="#FFFFFF" />
-              <Text style={s.langText}>{t("langToggle")}</Text>
-            </Tappable>
+        <View style={s.topRow}>
+          <View style={s.brandRow}>
+            <Image source={require("../../assets/logo-mark.png")} style={{ width: 28, height: 28 }} accessibilityLabel={t("appName")} />
+            <Text style={s.brand}>{t("appName")}</Text>
           </View>
-          <Text style={s.heroTitle}>{t("tagline")}</Text>
+          <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
+            <Ionicons name="language" size={16} color={C.text} />
+            <Text style={s.langText}>{t("langToggle")}</Text>
+          </Tappable>
         </View>
+      </FadeInUp>
+
+      <FadeInUp delay={40}>
+        <Text style={s.greeting}>{greeting}</Text>
+        <Text style={s.taglineSub}>{t("tagline")}</Text>
       </FadeInUp>
 
       <FadeInUp delay={80}>
@@ -215,31 +220,26 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 16, paddingBottom: 32 },
-  hero: {
-    backgroundColor: C.primaryDeep,
-    borderRadius: 24,
-    padding: 20,
-    paddingBottom: 52,
-  },
-  heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  wrap: { padding: 20, paddingBottom: 32 },
+  topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  brand: { fontSize: 18, ...display, color: "#FFFFFF" },
+  brand: { fontSize: 18, ...display, color: C.text },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     minHeight: 40,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.35)",
-    backgroundColor: "rgba(255,255,255,0.12)",
+    borderColor: C.border,
+    backgroundColor: C.card,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  langText: { color: "#FFFFFF", fontWeight: "600", fontSize: 14 },
-  heroTitle: { fontSize: 32, ...display, lineHeight: 40, color: "#FFFFFF", marginTop: 24 },
-  askCard: { marginTop: -32, marginHorizontal: 4, ...shadowLg },
+  langText: { color: C.text, fontWeight: "600", fontSize: 14 },
+  greeting: { fontSize: 28, ...display, lineHeight: 36, color: C.text, marginTop: 32 },
+  taglineSub: { fontSize: 16, color: C.sub, lineHeight: 24, marginTop: 4 },
+  askCard: { marginTop: 16, borderRadius: 24, ...shadowLg },
   input: {
     minHeight: 96,
     maxHeight: 180,
@@ -271,7 +271,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
   },
   attachText: { fontSize: 14, fontWeight: "600", color: C.text },
-  tileRow: { flexDirection: "row", gap: 8, marginTop: 16, marginHorizontal: 4 },
+  tileRow: { flexDirection: "row", gap: 8, marginTop: 16 },
   tile: {
     flex: 1,
     alignItems: "center",
