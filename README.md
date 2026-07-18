@@ -10,14 +10,14 @@ Bangla-first legal information app for Bangladesh. Ask a question → see the ap
 
 ## Live
 
-- 🌐 **Web:** https://soyedfajol.github.io/LawcosmosAI/ (GitHub Pages) · Vercel mirror: import this repo at [vercel.com/new](https://vercel.com/new) — config is in [vercel.json](vercel.json)
+- 🌐 **Web:** https://lawcosmosai.vercel.app (primary, with visitor analytics) · mirror: https://soyedfajol.github.io/LawcosmosAI/ (GitHub Pages)
 - 📱 **Android APK:** https://github.com/SoyedFajol/LawcosmosAI/releases/latest — download `LawCosmosAI.apk` and install directly (soft-launch channel; Play Store is phase 2) ![APK downloads](https://img.shields.io/github/downloads/SoyedFajol/LawcosmosAI/total?label=APK%20downloads)
 
 ### Visitor analytics (free, anonymous)
 
-- **Web — GoatCounter** (cookieless, injected at build time): claim the site code once at [goatcounter.com/signup](https://www.goatcounter.com/signup) with code **`lawcosmos`**, then watch visits at **https://lawcosmos.goatcounter.com**. Until the code is claimed, the tracker no-ops silently.
-- **Web — Vercel Analytics**: auto-enabled when the repo is deployed on Vercel (Analytics tab → Enable).
+- **Web — Vercel Web Analytics** (cookieless, injected at build time on Vercel only): dashboard at [vercel.com/relbais-projects/lawcosmosai/analytics](https://vercel.com/relbais-projects/lawcosmosai/analytics). The GitHub Pages mirror is not tracked.
 - **Android**: the badge above counts APK downloads via GitHub — no in-app tracking; the mobile app stays analytics-free as promised in the privacy note.
+- **Deploying to Vercel**: `npx vercel deploy --prod` (or connect the repo in the Vercel dashboard for auto-deploys on push; Pages auto-deploys already).
 
 ## Features
 
