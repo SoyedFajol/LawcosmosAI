@@ -1,17 +1,23 @@
-// Injects Vercel Web Analytics into the static web export.
-// Runs ONLY on Vercel builds (the insights script 404s on other hosts, e.g. GitHub Pages).
+// Injects visitor analytics into the static web export (runs via `npm run build:web`).
+// - GoatCounter: always injected — free, cookieless, anonymous. Counts start once the
+//   site code "lawcosmos" is claimed at goatcounter.com; until then requests fail silently.
+//   Dashboard: https://lawcosmos.goatcounter.com
+// - Vercel Web Analytics: injected only on Vercel builds (the script 404s elsewhere).
 const fs = require("fs");
 
-if (!process.env.VERCEL) {
-  console.log("postbuild-web: not a Vercel build, skipping analytics injection");
-  process.exit(0);
+const file = "dist/index.html";
+let html = fs.readFileSync(file, "utf8");
+
+const GOAT =
+  '<script data-goatcounter="https://lawcosmos.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>';
+if (!html.includes("goatcounter")) {
+  html = html.replace("</body>", `${GOAT}</body>`);
+  console.log("postbuild-web: GoatCounter injected");
 }
 
-const file = "dist/index.html";
-const html = fs.readFileSync(file, "utf8");
-if (!html.includes("/_vercel/insights/script.js")) {
-  fs.writeFileSync(file, html.replace("</body>", '<script defer src="/_vercel/insights/script.js"></script></body>'));
-  console.log("postbuild-web: Vercel Web Analytics script injected");
-} else {
-  console.log("postbuild-web: analytics script already present");
+if (process.env.VERCEL && !html.includes("/_vercel/insights/script.js")) {
+  html = html.replace("</body>", '<script defer src="/_vercel/insights/script.js"></script></body>');
+  console.log("postbuild-web: Vercel Web Analytics injected");
 }
+
+fs.writeFileSync(file, html);

@@ -33,7 +33,7 @@ jobs:
           if [[ "$REPO_NAME" != *.github.io ]]; then
             node -e "const fs=require('fs');const j=JSON.parse(fs.readFileSync('app.json'));j.expo.experiments={...(j.expo.experiments||{}),baseUrl:'/'+process.env.REPO_NAME};fs.writeFileSync('app.json',JSON.stringify(j,null,2));"
           fi
-          npx expo export --platform web
+          npm run build:web
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3

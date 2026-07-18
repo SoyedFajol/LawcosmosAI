@@ -67,7 +67,7 @@ const resources = {
       byLine: "নির্মাণে The Mavericks",
       contact: "যোগাযোগ / ভুল উত্তর রিপোর্ট করুন",
       privacyNote:
-        "গোপনীয়তা (খসড়া — চূড়ান্ত অনুমোদন বাকি): আপনার প্রশ্ন ও ফাইল এই প্রোটোটাইপে ডিভাইসেই প্রসেস হয়; কোনো সার্ভারে পাঠানো বা সংরক্ষণ করা হয় না। প্রশ্নের ইতিহাস শুধু আপনার ফোনে (AsyncStorage) থাকে — ইতিহাস মুছলে তা মুছে যায়। ওয়েব সংস্করণে শুধু বেনামী ভিজিটর সংখ্যা গণনা হয় (Vercel Web Analytics) — কোনো কুকি নয়, কোনো ব্যক্তিগত তথ্য নয়, আপনার প্রশ্ন কখনোই নয়; মোবাইল অ্যাপে কোনো অ্যানালিটিক্স নেই। ভবিষ্যতে সার্ভার/AI যুক্ত হলে এই নোট হালনাগাদ হবে।",
+        "গোপনীয়তা (খসড়া — চূড়ান্ত অনুমোদন বাকি): আপনার প্রশ্ন ও ফাইল এই প্রোটোটাইপে ডিভাইসেই প্রসেস হয়; কোনো সার্ভারে পাঠানো বা সংরক্ষণ করা হয় না। প্রশ্নের ইতিহাস শুধু আপনার ফোনে (AsyncStorage) থাকে — ইতিহাস মুছলে তা মুছে যায়। ওয়েব সংস্করণে শুধু বেনামী ভিজিটর সংখ্যা গণনা হয় (GoatCounter / Vercel Web Analytics) — কোনো কুকি নয়, কোনো ব্যক্তিগত তথ্য নয়, আপনার প্রশ্ন কখনোই নয়; মোবাইল অ্যাপে কোনো অ্যানালিটিক্স নেই। ভবিষ্যতে সার্ভার/AI যুক্ত হলে এই নোট হালনাগাদ হবে।",
       termsNote:
         "শর্তাবলী (খসড়া — চূড়ান্ত অনুমোদন বাকি): এই অ্যাপ আইনি তথ্য দেয়, আইনি পরামর্শ নয়; এতে আইনজীবী-মক্কেল সম্পর্ক তৈরি হয় না। আইনজীবী তালিকা ও পেমেন্ট স্ক্রিন সম্পূর্ণ ডেমো। দণ্ড/জরিমানার তথ্য 'সর্বশেষ যাচাই' তারিখ অনুযায়ী — আইন পরিবর্তিত হতে পারে।",
     },
@@ -133,7 +133,7 @@ const resources = {
       byLine: "Built by The Mavericks",
       contact: "Contact / report a wrong answer",
       privacyNote:
-        "Privacy (DRAFT — pending final approval): In this prototype your questions and files are processed on-device only; nothing is sent to or stored on a server. Question history lives only on your phone (AsyncStorage) and is deleted when you clear it. The web version counts visitors anonymously (Vercel Web Analytics) — no cookies, no personal data, never your questions; the mobile app has no analytics. This note will be updated if a server/AI backend is added.",
+        "Privacy (DRAFT — pending final approval): In this prototype your questions and files are processed on-device only; nothing is sent to or stored on a server. Question history lives only on your phone (AsyncStorage) and is deleted when you clear it. The web version counts visitors anonymously (GoatCounter / Vercel Web Analytics) — no cookies, no personal data, never your questions; the mobile app has no analytics. This note will be updated if a server/AI backend is added.",
       termsNote:
         "Terms (DRAFT — pending final approval): This app provides legal information, not legal advice; no lawyer-client relationship is created. The lawyer list and payment screens are entirely demo. Penalty figures reflect each entry's 'last verified' date — laws may change.",
     },

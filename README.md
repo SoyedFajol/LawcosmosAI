@@ -11,7 +11,13 @@ Bangla-first legal information app for Bangladesh. Ask a question → see the ap
 ## Live
 
 - 🌐 **Web:** https://soyedfajol.github.io/LawcosmosAI/ (GitHub Pages) · Vercel mirror: import this repo at [vercel.com/new](https://vercel.com/new) — config is in [vercel.json](vercel.json)
-- 📱 **Android APK:** https://github.com/SoyedFajol/LawcosmosAI/releases/latest — download `LawCosmosAI.apk` and install directly (soft-launch channel; Play Store is phase 2)
+- 📱 **Android APK:** https://github.com/SoyedFajol/LawcosmosAI/releases/latest — download `LawCosmosAI.apk` and install directly (soft-launch channel; Play Store is phase 2) ![APK downloads](https://img.shields.io/github/downloads/SoyedFajol/LawcosmosAI/total?label=APK%20downloads)
+
+### Visitor analytics (free, anonymous)
+
+- **Web — GoatCounter** (cookieless, injected at build time): claim the site code once at [goatcounter.com/signup](https://www.goatcounter.com/signup) with code **`lawcosmos`**, then watch visits at **https://lawcosmos.goatcounter.com**. Until the code is claimed, the tracker no-ops silently.
+- **Web — Vercel Analytics**: auto-enabled when the repo is deployed on Vercel (Analytics tab → Enable).
+- **Android**: the badge above counts APK downloads via GitHub — no in-app tracking; the mobile app stays analytics-free as promised in the privacy note.
 
 ## Features
 

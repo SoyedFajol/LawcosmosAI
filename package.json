@@ -1,6 +1,6 @@
 {
   "name": "lawcosmosai",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "index.ts",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -36,7 +36,7 @@
     "web": "expo start --web",
     "check": "tsx scripts/check.ts && node scripts/uilint.js",
     "typecheck": "tsc --noEmit",
-    "build:web": "expo export --platform web"
+    "build:web": "expo export --platform web && node scripts/postbuild-web.js"
   },
   "private": true,
   "author": "The Mavericks"
