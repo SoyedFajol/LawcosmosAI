@@ -15,7 +15,7 @@ function Section({ icon, label, children }: { icon: IconName; label: string; chi
   return (
     <View>
       <View style={s.sectionHead}>
-        <Ionicons name={icon} size={15} color={C.primary} />
+        <Ionicons name={icon} size={16} color={C.primary} />
         <Label>{label}</Label>
       </View>
       {children}
@@ -50,7 +50,7 @@ export default function AnswerScreen({ route, navigation }: Props) {
       <FadeInUp delay={70}>
         <View style={[s.verdictCard, { backgroundColor: tone.soft, borderColor: tone.fg }]}>
           <View style={s.verdictRow}>
-            <IconBadge name={tone.icon} fg="#fff" bg={tone.fg} size={46} round />
+            <IconBadge name={tone.icon} fg="#fff" bg={tone.fg} size={48} round />
             <View style={{ flex: 1 }}>
               <Label color={tone.fg}>{t("verdictLabel")}</Label>
               <Text style={[s.verdict, { color: tone.fg }]}>{tone.text}</Text>
@@ -102,15 +102,15 @@ export default function AnswerScreen({ route, navigation }: Props) {
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 20, paddingBottom: 36 },
-  queryRow: { flexDirection: "row", gap: 8, marginBottom: 10, paddingHorizontal: 2 },
-  query: { flex: 1, fontSize: 15.5, fontStyle: "italic", color: C.sub, lineHeight: 22 },
-  verdictCard: { borderRadius: 20, borderWidth: 1.5, padding: 16, marginVertical: 7 },
+  wrap: { padding: 20, paddingBottom: 32 },
+  queryRow: { flexDirection: "row", gap: 8, marginBottom: 12, paddingHorizontal: 4 },
+  query: { flex: 1, fontSize: 16, fontStyle: "italic", color: C.sub, lineHeight: 24 },
+  verdictCard: { borderRadius: 16, borderWidth: 1, padding: 16, marginVertical: 8 },
   verdictRow: { flexDirection: "row", alignItems: "center", gap: 12 },
-  verdict: { fontSize: 20, ...display, lineHeight: 27 },
-  offense: { fontSize: 15, color: C.text, lineHeight: 23, marginTop: 12 },
-  sectionHead: { flexDirection: "row", alignItems: "center", gap: 6 },
-  body: { fontSize: 16.5, color: C.text, lineHeight: 26 },
+  verdict: { fontSize: 20, ...display, lineHeight: 28 },
+  offense: { fontSize: 16, color: C.text, lineHeight: 24, marginTop: 12 },
+  sectionHead: { flexDirection: "row", alignItems: "center", gap: 8 },
+  body: { fontSize: 16, color: C.text, lineHeight: 24 },
   penaltyBox: { backgroundColor: C.dangerSoft, borderRadius: 12, padding: 12 },
   penalty: { fontSize: 16, fontWeight: "700", color: C.danger, lineHeight: 24 },
   metaRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 16 },

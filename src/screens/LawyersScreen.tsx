@@ -25,7 +25,7 @@ export default function LawyersScreen({ navigation }: Props) {
           <FadeInUp delay={index * 60}>
             <Card>
               <View style={s.head}>
-                <Avatar name={bn ? item.name_bn : item.name_en} size={52} />
+                <Avatar name={bn ? item.name_bn : item.name_en} size={48} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.name}>{bn ? item.name_bn : item.name_en}</Text>
                   <Chip icon="briefcase" text={t(`specialty_${item.specialty}`)} fg={C.primary} bg={C.primarySoft} />
@@ -33,11 +33,11 @@ export default function LawyersScreen({ navigation }: Props) {
               </View>
               <View style={s.metaRow}>
                 <View style={s.meta}>
-                  <Ionicons name="location" size={14} color={C.sub} />
+                  <Ionicons name="location" size={16} color={C.sub} />
                   <Text style={s.metaText}>{bn ? item.city_bn : item.city_en}</Text>
                 </View>
                 <View style={s.meta}>
-                  <Ionicons name="ribbon" size={14} color={C.sub} />
+                  <Ionicons name="ribbon" size={16} color={C.sub} />
                   <Text style={s.metaText}>
                     {item.years} {t("years")}
                   </Text>
@@ -66,10 +66,10 @@ export default function LawyersScreen({ navigation }: Props) {
 
 const s = StyleSheet.create({
   head: { flexDirection: "row", alignItems: "center", gap: 12 },
-  name: { fontSize: 16.5, fontWeight: "800", color: C.text, marginBottom: 5 },
+  name: { fontSize: 16, fontWeight: "800", color: C.text, marginBottom: 4 },
   metaRow: { flexDirection: "row", gap: 16, marginTop: 12 },
-  meta: { flexDirection: "row", alignItems: "center", gap: 5 },
-  metaText: { fontSize: 13.5, color: C.sub, fontWeight: "600" },
+  meta: { flexDirection: "row", alignItems: "center", gap: 4 },
+  metaText: { fontSize: 14, color: C.sub, fontWeight: "600" },
   footRow: {
     flexDirection: "row",
     justifyContent: "space-between",

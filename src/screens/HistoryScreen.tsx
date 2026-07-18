@@ -21,7 +21,7 @@ export default function HistoryScreen(_: Props) {
         keyExtractor={(item) => String(item.ts)}
         ListEmptyComponent={
           <FadeInUp style={s.empty}>
-            <IconBadge name="time" fg={C.sub} bg="#EEF1F6" size={72} round />
+            <IconBadge name="time" fg={C.sub} bg={C.primarySoft} size={72} round />
             <Text style={s.emptyText}>{t("historyEmpty")}</Text>
           </FadeInUp>
         }
@@ -33,8 +33,8 @@ export default function HistoryScreen(_: Props) {
                 <IconBadge
                   name={entry ? "checkmark-circle" : "help-circle"}
                   fg={entry ? C.ok : C.sub}
-                  bg={entry ? C.okSoft : "#EEF1F6"}
-                  size={38}
+                  bg={entry ? C.okSoft : C.primarySoft}
+                  size={40}
                 />
                 <View style={{ flex: 1 }}>
                   <Text style={s.q}>“{item.query}”</Text>
@@ -60,8 +60,8 @@ const s = StyleSheet.create({
   empty: { alignItems: "center", gap: 16, marginTop: 64 },
   emptyText: { textAlign: "center", color: C.sub, fontSize: 16 },
   row: { flexDirection: "row", gap: 12, alignItems: "flex-start" },
-  q: { fontSize: 15.5, color: C.text, fontWeight: "700", lineHeight: 22 },
-  a: { fontSize: 13.5, color: C.sub, marginTop: 4, fontWeight: "600" },
-  tsRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
+  q: { fontSize: 16, color: C.text, fontWeight: "700", lineHeight: 24 },
+  a: { fontSize: 14, color: C.sub, marginTop: 4, fontWeight: "600" },
+  tsRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 8 },
   ts: { fontSize: 12, color: C.sub },
 });

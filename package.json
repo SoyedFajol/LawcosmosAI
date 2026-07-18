@@ -1,6 +1,6 @@
 {
   "name": "lawcosmosai",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.ts",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -34,7 +34,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "check": "tsx scripts/check.ts",
+    "check": "tsx scripts/check.ts && node scripts/uilint.js",
     "typecheck": "tsc --noEmit",
     "build:web": "expo export --platform web"
   },

@@ -38,7 +38,7 @@ export default function PaymentScreen({ route, navigation }: Props) {
 
           {done ? (
             <View style={{ alignItems: "center" }}>
-              <Animated.View style={{ transform: [{ scale: pop }], marginVertical: 14 }}>
+              <Animated.View style={{ transform: [{ scale: pop }], marginVertical: 16 }}>
                 <IconBadge name="checkmark" fg="#fff" bg={C.ok} size={88} round />
               </Animated.View>
               <Text style={s.success}>{t("paymentDone")}</Text>
@@ -48,7 +48,7 @@ export default function PaymentScreen({ route, navigation }: Props) {
             <>
               <Text style={s.amount}>৳{lawyer.fee}</Text>
               <View style={s.inputRow}>
-                <Ionicons name="call" size={18} color={C.sub} />
+                <Ionicons name="call" size={20} color={C.sub} />
                 <TextInput
                   style={s.input}
                   placeholder="01XXXXXXXXX (DEMO)"
@@ -72,8 +72,8 @@ export default function PaymentScreen({ route, navigation }: Props) {
 const s = StyleSheet.create({
   wrap: { padding: 20, paddingTop: 40, paddingBottom: 36 },
   sheet: { borderRadius: 24, padding: 20 },
-  title: { fontSize: 19, fontWeight: "800", color: C.bkash, textAlign: "center", marginTop: 10 },
-  amount: { fontSize: 40, fontWeight: "800", color: C.text, textAlign: "center", marginVertical: 14 },
+  title: { fontSize: 20, fontWeight: "800", color: C.bkash, textAlign: "center", marginTop: 12 },
+  amount: { fontSize: 40, fontWeight: "800", color: C.text, textAlign: "center", marginVertical: 16 },
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -81,10 +81,10 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: C.border,
     backgroundColor: C.bg,
-    borderRadius: 14,
-    paddingHorizontal: 14,
-    marginBottom: 10,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
-  input: { flex: 1, paddingVertical: 14, fontSize: 17, color: C.text, letterSpacing: 1 },
-  success: { fontSize: 16.5, color: C.ok, textAlign: "center", marginBottom: 14, fontWeight: "700", lineHeight: 24 },
+  input: { flex: 1, paddingVertical: 12, fontSize: 18, color: C.text, letterSpacing: 1 },
+  success: { fontSize: 16, color: C.ok, textAlign: "center", marginBottom: 16, fontWeight: "700", lineHeight: 24 },
 });

@@ -66,9 +66,9 @@ export default function BookingScreen({ route, navigation }: Props) {
 
 const s = StyleSheet.create({
   profile: { alignItems: "center", paddingVertical: 24 },
-  name: { fontSize: 19, fontWeight: "800", color: C.text, marginTop: 12, textAlign: "center" },
-  chipRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 10 },
+  name: { fontSize: 20, fontWeight: "800", color: C.text, marginTop: 12, textAlign: "center" },
+  chipRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 12 },
   row: { flexDirection: "row", alignItems: "center", gap: 12 },
   value: { fontSize: 16, color: C.text, fontWeight: "600" },
-  fee: { fontSize: 21, fontWeight: "800", color: C.accentDeep },
+  fee: { fontSize: 20, fontWeight: "800", color: C.accentDeep },
 });

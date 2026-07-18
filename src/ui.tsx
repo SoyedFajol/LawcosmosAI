@@ -17,6 +17,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 export type IconName = keyof typeof Ionicons.glyphMap;
 
+// Grid system: every spacing value (padding/margin/gap) sits on a 4pt grid, 8pt preferred.
+// Type, radius, and icon sizes come from these scales; interactive targets are >=44px.
+// scripts/uilint.js enforces all of this in CI — additions off the grid fail the build.
+export const F = { xs: 12, s: 14, m: 16, l: 18, xl: 20, xxl: 24, display: 28 } as const;
+export const R = { s: 8, m: 12, l: 16, xl: 24 } as const;
+export const ICON = { s: 16, m: 20, l: 24 } as const;
+
 export const C = {
   bg: "#F4F7F3",
   card: "#FFFFFF",
@@ -69,7 +76,7 @@ export function FadeInUp({ children, delay = 0, style }: { children: React.React
       a.setValue(1);
       return;
     }
-    Animated.timing(a, { toValue: 1, duration: 420, delay, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
+    Animated.timing(a, { toValue: 1, duration: 400, delay, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
   }, [reduced]);
   return (
     <Animated.View
@@ -77,7 +84,7 @@ export function FadeInUp({ children, delay = 0, style }: { children: React.React
         style,
         {
           opacity: a,
-          transform: [{ translateY: a.interpolate({ inputRange: [0, 1], outputRange: [18, 0] }) }],
+          transform: [{ translateY: a.interpolate({ inputRange: [0, 1], outputRange: [16, 0] }) }],
         },
       ]}
     >
@@ -167,7 +174,7 @@ export function Btn({
       accessibilityLabel={label}
       style={[s.btn, { backgroundColor: v.bg }, border ?? {}, style ?? {}]}
     >
-      {icon && <Ionicons name={icon} size={18} color={v.fg} style={{ marginRight: 8 }} />}
+      {icon && <Ionicons name={icon} size={ICON.m} color={v.fg} style={{ marginRight: 8 }} />}
       <Text style={[s.btnText, { color: v.fg }]}>{label}</Text>
     </Tappable>
   );
@@ -181,7 +188,7 @@ export function Label({ children, color = C.sub }: { children: React.ReactNode; 
 export function Chip({ icon, text, fg = C.sub, bg = C.primarySoft }: { icon?: IconName; text: string; fg?: string; bg?: string }) {
   return (
     <View style={[s.chip, { backgroundColor: bg }]}>
-      {icon && <Ionicons name={icon} size={13} color={fg} style={{ marginRight: 5 }} />}
+      {icon && <Ionicons name={icon} size={12} color={fg} style={{ marginRight: 4 }} />}
       <Text style={[s.chipText, { color: fg }]}>{text}</Text>
     </View>
   );
@@ -192,7 +199,7 @@ export function IconBadge({
   name,
   fg = C.text,
   bg = C.primarySoft,
-  size = 42,
+  size = 44,
   round,
 }: {
   name: IconName;
@@ -223,7 +230,7 @@ export function Banner({ text, tone = "warn", icon }: { text: string; tone?: "wa
   const bg = tone === "warn" ? C.warnSoft : C.primarySoft;
   return (
     <View style={[s.banner, { backgroundColor: bg }]}>
-      <Ionicons name={icon ?? (tone === "warn" ? "warning" : "information-circle")} size={17} color={fg} style={{ marginTop: 1 }} />
+      <Ionicons name={icon ?? (tone === "warn" ? "warning" : "information-circle")} size={ICON.s} color={fg} style={{ marginTop: 2 }} />
       <Text style={[s.bannerText, { color: fg }]}>{text}</Text>
     </View>
   );
@@ -254,47 +261,47 @@ export function Avatar({ name, size = 48 }: { name: string; size?: number }) {
 }
 
 export function Divider({ style }: { style?: ViewStyle }) {
-  return <View style={[{ height: 1, backgroundColor: C.border, marginVertical: 14 }, style]} />;
+  return <View style={[{ height: 1, backgroundColor: C.border, marginVertical: 12 }, style]} />;
 }
 
 const s = StyleSheet.create({
   card: {
     backgroundColor: C.card,
-    borderRadius: 20,
+    borderRadius: R.l,
     padding: 16,
-    marginVertical: 7,
+    marginVertical: 8,
     borderWidth: 1,
     borderColor: C.border,
     ...shadow,
   },
   btn: {
-    minHeight: 50,
-    borderRadius: 14,
-    paddingVertical: 13,
+    minHeight: 48,
+    borderRadius: R.m,
+    paddingVertical: 12,
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 6,
+    marginVertical: 8,
   },
-  btnText: { fontSize: 15.5, fontWeight: "600" },
-  label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 },
+  btnText: { fontSize: F.m, fontWeight: "600" },
+  label: { fontSize: F.xs, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 },
   chip: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
     alignSelf: "flex-start",
   },
-  chipText: { fontSize: 12.5, fontWeight: "600" },
+  chipText: { fontSize: F.xs, fontWeight: "600" },
   banner: {
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 8,
-    borderRadius: 16,
+    borderRadius: R.m,
     padding: 12,
-    marginVertical: 7,
+    marginVertical: 8,
   },
-  bannerText: { flex: 1, fontSize: 13.5, lineHeight: 20, fontWeight: "500" },
+  bannerText: { flex: 1, fontSize: F.s, lineHeight: 20, fontWeight: "500" },
 });

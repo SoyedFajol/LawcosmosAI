@@ -100,11 +100,11 @@ export default function HomeScreen({ navigation }: Props) {
                 <Ionicons name="camera-outline" size={20} color={C.text} />
               </Tappable>
               <Tappable onPress={onPdf} style={s.attachBtn} accessibilityLabel={t("pdfBtn")}>
-                <Ionicons name="document-outline" size={19} color={C.text} />
+                <Ionicons name="document-outline" size={20} color={C.text} />
               </Tappable>
               <View style={{ flex: 1 }} />
               <Tappable onPress={onAsk} disabled={!q.trim()} style={s.sendBtn} accessibilityLabel={t("askBtn")}>
-                <Ionicons name="arrow-up" size={22} color="#fff" />
+                <Ionicons name="arrow-up" size={24} color="#fff" />
               </Tappable>
             </View>
           </View>
@@ -122,14 +122,14 @@ export default function HomeScreen({ navigation }: Props) {
       </View>
 
       <FadeInUp delay={200}>
-        <Card style={{ paddingVertical: 6 }}>
+        <Card style={{ paddingVertical: 4 }}>
           {quickLinks.map((l, i) => (
             <View key={l.label}>
               {i > 0 && <Divider style={{ marginVertical: 0 }} />}
               <Tappable onPress={l.go} style={s.linkRow} accessibilityLabel={l.label}>
                 <Ionicons name={l.icon} size={20} color={C.text} />
                 <Text style={s.linkText}>{l.label}</Text>
-                <Ionicons name="chevron-forward" size={18} color={C.sub} />
+                <Ionicons name="chevron-forward" size={20} color={C.sub} />
               </Tappable>
             </View>
           ))}
@@ -150,28 +150,29 @@ export default function HomeScreen({ navigation }: Props) {
 const s = StyleSheet.create({
   wrap: { padding: 20, paddingBottom: 32, flexGrow: 1 },
   topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  brandRow: { flexDirection: "row", alignItems: "center", gap: 9 },
-  brand: { fontSize: 19, ...display, color: C.text },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  brand: { fontSize: 20, ...display, color: C.text },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
+    minHeight: 44,
     borderWidth: 1,
     borderColor: C.border,
     backgroundColor: C.card,
     borderRadius: 12,
-    paddingHorizontal: 13,
-    paddingVertical: 7,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
-  langText: { color: C.text, fontWeight: "600", fontSize: 13.5 },
-  center: { flexGrow: 1, justifyContent: "center", paddingVertical: 28 },
+  langText: { color: C.text, fontWeight: "600", fontSize: 14 },
+  center: { flexGrow: 1, justifyContent: "center", paddingVertical: 32 },
   tagline: {
-    fontSize: 27,
+    fontSize: 28,
     ...display,
-    lineHeight: 37,
+    lineHeight: 36,
     color: C.text,
     textAlign: "center",
-    marginBottom: 22,
+    marginBottom: 24,
     paddingHorizontal: 8,
   },
   composer: {
@@ -190,26 +191,26 @@ const s = StyleSheet.create({
     minHeight: 72,
     maxHeight: 160,
     fontSize: 16,
-    lineHeight: 23,
+    lineHeight: 24,
     color: C.text,
     textAlignVertical: "top",
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 6,
+    paddingHorizontal: 12,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
-  composerRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 2, paddingBottom: 2 },
+  composerRow: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 2, paddingBottom: 2 },
   attachBtn: {
-    width: 38,
-    height: 38,
+    width: 44,
+    height: 44,
     borderRadius: 12,
     backgroundColor: C.primarySoft,
     alignItems: "center",
     justifyContent: "center",
   },
   sendBtn: {
-    width: 42,
-    height: 42,
-    borderRadius: 13,
+    width: 48,
+    height: 48,
+    borderRadius: 12,
     backgroundColor: C.primary,
     alignItems: "center",
     justifyContent: "center",
@@ -218,11 +219,11 @@ const s = StyleSheet.create({
   exChip: {
     backgroundColor: C.primarySoft,
     borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
-  exText: { fontSize: 13.5, color: C.primaryDeep, fontWeight: "600" },
-  linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, paddingHorizontal: 6 },
-  linkText: { flex: 1, fontSize: 15.5, fontWeight: "600", color: C.text },
+  exText: { fontSize: 14, color: C.primaryDeep, fontWeight: "600" },
+  linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
+  linkText: { flex: 1, fontSize: 16, fontWeight: "600", color: C.text },
   footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 12, marginBottom: 4 },
 });

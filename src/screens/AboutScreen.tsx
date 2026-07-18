@@ -39,6 +39,6 @@ export default function AboutScreen() {
 
 const s = StyleSheet.create({
   row: { flexDirection: "row", gap: 12, alignItems: "flex-start" },
-  body: { flex: 1, fontSize: 14.5, color: C.text, lineHeight: 23 },
-  email: { textAlign: "center", color: C.sub, fontSize: 13.5, marginTop: 4 },
+  body: { flex: 1, fontSize: 16, color: C.text, lineHeight: 24 },
+  email: { textAlign: "center", color: C.sub, fontSize: 14, marginTop: 4 },
 });
