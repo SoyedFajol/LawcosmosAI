@@ -39,7 +39,7 @@ npm run build:web     # static web build -> dist/
 
 ## Architecture
 
-Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retrieval in [src/engine.ts](src/engine.ts). `ask()` / `analyzeImage()` / `analyzePdf()` are the seams for a future RAG/OCR backend. State: zustand + AsyncStorage ([src/store.ts](src/store.ts)). UI: design-token kit in [src/ui.tsx](src/ui.tsx) (navy/gold "Trust & Authority" system).
+Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retrieval in [src/engine.ts](src/engine.ts). `ask()` / `analyzeImage()` / `analyzePdf()` are the seams for a future RAG/OCR backend. State: zustand + AsyncStorage ([src/store.ts](src/store.ts)). UI: design-token kit in [src/ui.tsx](src/ui.tsx) — the "Constellation" identity: Bangladesh bottle green + courtroom brass on green mist, with the constellation-scales mark (regenerate icons via `node scripts/gen-icons.js`).
 
 ## Launch status (phase 1)
 

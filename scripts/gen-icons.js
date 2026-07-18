@@ -1,17 +1,23 @@
-// Brand asset generator — renders the LawCosmosAI mark ("Orbital Balance") into every
-// app icon Expo needs. Rerun after editing the mark: node scripts/gen-icons.js
-// Mark: one orbit ring + two bodies in equilibrium — law (balance) + cosmos (orbit), minimal AI geometry.
+// Brand asset generator — renders the LawCosmosAI mark into every app icon Expo needs.
+// Rerun after editing the mark: node scripts/gen-icons.js
+// Mark: "Constellation of Justice" — the scales drawn as a constellation: a pivot star
+// with two pan stars of unequal weight. Law (balance) + Cosmos (stars) + AI (geometry).
+// Identity: Bangladesh bottle green field, courtroom-brass mark. Deliberately NOT the
+// cream/terracotta/serif or black/white looks of existing AI products.
 const sharp = require("sharp");
 
-const EMBER = "#C65D3B";
-const PAPER = "#FAF9F5";
+const GREEN_DEEP = "#0B4A38"; // icon field
+const GREEN = "#0F5D44"; // primary
+const BRASS = "#D9A13B"; // mark on green
+const MIST = "#F4F7F3"; // app background
 
-// viewBox 0 0 100 100; dots sit on the ring at 220° / 40° (heavy low-left, light high-right)
 const mark = (color) => `
-  <g fill="none">
-    <circle cx="50" cy="50" r="30" stroke="${color}" stroke-width="4.5"/>
-    <circle cx="27.02" cy="69.28" r="7.5" fill="${color}"/>
-    <circle cx="72.98" cy="30.72" r="4.5" fill="${color}"/>
+  <g fill="none" stroke="${color}" stroke-width="3.5" stroke-linecap="round">
+    <line x1="50" y1="30" x2="28" y2="62"/>
+    <line x1="50" y1="30" x2="72" y2="62"/>
+    <circle cx="50" cy="30" r="6" fill="${color}" stroke="none"/>
+    <circle cx="28" cy="62" r="8" fill="${color}" stroke="none"/>
+    <circle cx="72" cy="62" r="5" fill="${color}" stroke="none"/>
   </g>`;
 
 const svg = (size, inner) =>
@@ -25,18 +31,18 @@ const placed = (color, scalePct) => {
 };
 
 const jobs = [
-  // App icon: full-bleed ember square, white mark (OS applies its own corner mask)
-  ["assets/icon.png", 1024, `<rect width="100" height="100" fill="${EMBER}"/>${placed("#FFFFFF", 66)}`],
-  // Android adaptive: fg/monochrome inside the ~66% safe zone, solid ember bg
-  ["assets/android-icon-foreground.png", 1024, placed("#FFFFFF", 46)],
-  ["assets/android-icon-monochrome.png", 1024, placed("#FFFFFF", 46)],
-  ["assets/android-icon-background.png", 1024, `<rect width="100" height="100" fill="${EMBER}"/>`],
-  // Favicon: rounded ember tile so it reads on any tab color
-  ["assets/favicon.png", 64, `<rect width="100" height="100" rx="22" fill="${EMBER}"/>${placed("#FFFFFF", 70)}`],
-  // Splash: ember mark on transparent (splash background color comes from app.json = paper)
-  ["assets/splash-icon.png", 512, placed(EMBER, 90)],
-  // In-app header mark: ember on transparent
-  ["assets/logo-mark.png", 256, placed(EMBER, 100)],
+  // App icon: full-bleed deep-green square, brass mark (OS applies its own corner mask)
+  ["assets/icon.png", 1024, `<rect width="100" height="100" fill="${GREEN_DEEP}"/>${placed(BRASS, 78)}`],
+  // Android adaptive: fg/monochrome inside the ~66% safe zone, solid deep-green bg
+  ["assets/android-icon-foreground.png", 1024, placed(BRASS, 52)],
+  ["assets/android-icon-monochrome.png", 1024, placed("#FFFFFF", 52)],
+  ["assets/android-icon-background.png", 1024, `<rect width="100" height="100" fill="${GREEN_DEEP}"/>`],
+  // Favicon: rounded deep-green tile so it reads on any tab color
+  ["assets/favicon.png", 64, `<rect width="100" height="100" rx="22" fill="${GREEN_DEEP}"/>${placed(BRASS, 84)}`],
+  // Splash: green mark on transparent (splash background color comes from app.json = mist)
+  ["assets/splash-icon.png", 512, placed(GREEN, 96)],
+  // In-app header mark: green on transparent
+  ["assets/logo-mark.png", 256, placed(GREEN, 100)],
 ];
 
 (async () => {
@@ -44,5 +50,5 @@ const jobs = [
     await sharp(svg(size, inner)).png().toFile(file);
     console.log(`ok ${file} (${size}px)`);
   }
-  console.log(`palette: ember ${EMBER} on paper ${PAPER}`);
+  console.log(`palette: green ${GREEN} / brass ${BRASS} on mist ${MIST}`);
 })();

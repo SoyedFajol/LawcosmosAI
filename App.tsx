@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import "./src/i18n";
 import { RootStackParamList } from "./src/nav";
 import { useStore } from "./src/store";
-import { C, serif } from "./src/ui";
+import { C } from "./src/ui";
 import HomeScreen from "./src/screens/HomeScreen";
 import AnswerScreen from "./src/screens/AnswerScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
@@ -74,7 +74,7 @@ export default function App() {
           screenOptions={{
             headerStyle: { backgroundColor: C.bg },
             headerTintColor: C.text,
-            headerTitleStyle: { fontFamily: serif, fontWeight: "700", color: C.text },
+            headerTitleStyle: { fontWeight: "800", color: C.text },
             headerShadowVisible: false,
             contentStyle: { backgroundColor: C.bg },
           }}

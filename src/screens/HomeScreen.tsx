@@ -10,7 +10,7 @@ import { RootStackParamList } from "../nav";
 import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
 import { CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, C, Card, Chip, Divider, FadeInUp, IconName, serif, Tappable } from "../ui";
+import { Banner, C, Card, Chip, display, Divider, FadeInUp, IconName, Tappable } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -151,7 +151,7 @@ const s = StyleSheet.create({
   wrap: { padding: 20, paddingBottom: 32, flexGrow: 1 },
   topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   brandRow: { flexDirection: "row", alignItems: "center", gap: 9 },
-  brand: { fontSize: 19, fontFamily: serif, fontWeight: "700", color: C.text },
+  brand: { fontSize: 19, ...display, color: C.text },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -159,16 +159,16 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: C.border,
     backgroundColor: C.card,
-    borderRadius: 999,
+    borderRadius: 12,
     paddingHorizontal: 13,
     paddingVertical: 7,
   },
   langText: { color: C.text, fontWeight: "600", fontSize: 13.5 },
   center: { flexGrow: 1, justifyContent: "center", paddingVertical: 28 },
   tagline: {
-    fontFamily: serif,
-    fontSize: 28,
-    lineHeight: 38,
+    fontSize: 27,
+    ...display,
+    lineHeight: 37,
     color: C.text,
     textAlign: "center",
     marginBottom: 22,
@@ -201,7 +201,7 @@ const s = StyleSheet.create({
   attachBtn: {
     width: 38,
     height: 38,
-    borderRadius: 19,
+    borderRadius: 12,
     backgroundColor: C.primarySoft,
     alignItems: "center",
     justifyContent: "center",
@@ -209,21 +209,19 @@ const s = StyleSheet.create({
   sendBtn: {
     width: 42,
     height: 42,
-    borderRadius: 21,
-    backgroundColor: C.accent,
+    borderRadius: 13,
+    backgroundColor: C.primary,
     alignItems: "center",
     justifyContent: "center",
   },
   chipsWrap: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 16 },
   exChip: {
-    backgroundColor: C.card,
-    borderWidth: 1,
-    borderColor: C.border,
-    borderRadius: 999,
+    backgroundColor: C.primarySoft,
+    borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 9,
   },
-  exText: { fontSize: 13.5, color: C.sub, fontWeight: "500" },
+  exText: { fontSize: 13.5, color: C.primaryDeep, fontWeight: "600" },
   linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, paddingHorizontal: 6 },
   linkText: { flex: 1, fontSize: 15.5, fontWeight: "600", color: C.text },
   footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 12, marginBottom: 4 },

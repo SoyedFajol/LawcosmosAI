@@ -1,12 +1,12 @@
-// Design system — minimal modern AI: warm paper, ink text, one ember accent.
-// Serif display for brand moments, pill buttons, hairline borders, quiet shadows.
+// Design system — "Constellation": an identity of this product's own world, not a
+// borrowed AI aesthetic. Bangladesh bottle green + courtroom brass on green-tinted mist,
+// bold sans display, squared-round geometry, hairline borders, quiet shadows.
 // Micro-interactions respect the OS reduce-motion setting.
 import React from "react";
 import {
   AccessibilityInfo,
   Animated,
   Easing,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -18,36 +18,33 @@ import { Ionicons } from "@expo/vector-icons";
 export type IconName = keyof typeof Ionicons.glyphMap;
 
 export const C = {
-  bg: "#FAF9F5",
+  bg: "#F4F7F3",
   card: "#FFFFFF",
-  primary: "#1D1B16",
-  primarySoft: "#F1EFE8",
-  accent: "#C65D3B",
-  accentDeep: "#9E4526",
-  accentSoft: "#F7E9E2",
-  danger: "#BF3B2B",
-  dangerSoft: "#F9E9E6",
-  ok: "#3E7C4F",
-  okSoft: "#E9F2EB",
-  warn: "#A16207",
-  warnSoft: "#F8F0DC",
+  primary: "#0F5D44",
+  primaryDeep: "#0A4534",
+  primarySoft: "#E3EFE7",
+  accent: "#D9A13B",
+  accentDeep: "#8C5E14",
+  accentSoft: "#F7EDD8",
+  danger: "#C0392B",
+  dangerSoft: "#FAE8E5",
+  ok: "#0F5D44",
+  okSoft: "#E3EFE7",
+  warn: "#9A6A00",
+  warnSoft: "#F6EFD8",
   bkash: "#E2136E",
   bkashSoft: "#FCE9F1",
-  text: "#1D1B16",
-  sub: "#6B675C",
-  border: "#E7E4DB",
+  text: "#17251E",
+  sub: "#5C6B62",
+  border: "#E1E8E1",
 };
 
-/** Serif display face for brand moments (tagline, wordmark, verdicts). */
-export const serif = Platform.select({
-  web: "Georgia, 'Times New Roman', serif",
-  ios: "Georgia",
-  default: "serif",
-});
+/** Bold display treatment for brand moments (tagline, wordmark, verdicts). */
+export const display = { fontWeight: "800" as const, letterSpacing: -0.4 };
 
 export const shadow: ViewStyle = {
-  shadowColor: "#1D1B16",
-  shadowOpacity: 0.05,
+  shadowColor: "#0A4534",
+  shadowOpacity: 0.06,
   shadowRadius: 12,
   shadowOffset: { width: 0, height: 4 },
   elevation: 2,
@@ -246,7 +243,7 @@ export function Avatar({ name, size = 48 }: { name: string; size?: number }) {
         width: size,
         height: size,
         borderRadius: size / 2,
-        backgroundColor: C.accent,
+        backgroundColor: C.primary,
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -272,7 +269,7 @@ const s = StyleSheet.create({
   },
   btn: {
     minHeight: 50,
-    borderRadius: 999,
+    borderRadius: 14,
     paddingVertical: 13,
     paddingHorizontal: 20,
     flexDirection: "row",

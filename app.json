@@ -2,22 +2,22 @@
   "expo": {
     "name": "LawCosmosAI",
     "slug": "LawcosmosAI",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Bangla-first legal information for Bangladesh: ask a question, see the applicable law with citation, the exact penalty, and next steps. Legal information, not legal advice.",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "lawcosmosai",
     "userInterfaceStyle": "light",
-    "primaryColor": "#C65D3B",
+    "primaryColor": "#0F5D44",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lawcosmosai.app"
     },
     "android": {
       "package": "com.lawcosmosai.app",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
-        "backgroundColor": "#C65D3B",
+        "backgroundColor": "#0B4A38",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -28,8 +28,8 @@
       "favicon": "./assets/favicon.png",
       "name": "LawCosmosAI — আইন জানুন, খরচ জানুন",
       "shortName": "LawCosmosAI",
-      "themeColor": "#FAF9F5",
-      "backgroundColor": "#FAF9F5",
+      "themeColor": "#F4F7F3",
+      "backgroundColor": "#F4F7F3",
       "output": "single"
     },
     "plugins": [
@@ -39,7 +39,7 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#FAF9F5"
+          "backgroundColor": "#F4F7F3"
         }
       ],
       "expo-font"
