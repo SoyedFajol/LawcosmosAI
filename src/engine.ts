@@ -100,3 +100,9 @@ export async function askAI(q: string, lang: "bn" | "en"): Promise<string | null
     return null; // offline / timeout / not configured — caller shows the graceful message
   }
 }
+
+// Direct answer for a browsed corpus entry (the "Law Shelf" path) — no retrieval step,
+// so a tapped entry can never misroute.
+export function answerFor(entry: CorpusEntry, query: string, now: number): Answer {
+  return { query, source: "text", entry, demoNote: false, corpusVersion: CORPUS_VERSION, ts: now };
+}

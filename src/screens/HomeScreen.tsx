@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,10 +7,25 @@ import * as DocumentPicker from "expo-document-picker";
 import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../nav";
-import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
-import { CORPUS_VERSION } from "../corpus";
+import { answerFor, ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
+import { CORPUS, CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, Btn, C, Card, Chip, display, Divider, FadeInUp, IconBadge, IconName, Label, shadowLg, Tappable } from "../ui";
+import {
+  Banner,
+  Btn,
+  C,
+  Card,
+  Chip,
+  display,
+  Divider,
+  FadeInUp,
+  IconBadge,
+  IconName,
+  Label,
+  shadowLg,
+  Tappable,
+  useReducedMotion,
+} from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -19,7 +34,19 @@ export default function HomeScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
   const [q, setQ] = useState("");
   const [focused, setFocused] = useState(false);
+  const [openDomain, setOpenDomain] = useState<string | null>(null);
   const { lang, toggleLang, addHistory } = useStore();
+  const bn = lang === "bn";
+  const reduced = useReducedMotion();
+
+  // The placeholder itself teaches what the app can answer: it rotates real example questions.
+  const examples = [t("ex1"), t("ex2"), t("ex3")];
+  const [ph, setPh] = useState(0);
+  useEffect(() => {
+    if (reduced) return;
+    const id = setInterval(() => setPh((p) => (p + 1) % examples.length), 4000);
+    return () => clearInterval(id);
+  }, [reduced, lang]);
 
   const deliver = (answer: ReturnType<typeof ask>) => {
     addHistory(answer);
@@ -53,7 +80,11 @@ export default function HomeScreen({ navigation }: Props) {
     }
   };
 
-  const examples = [t("ex1"), t("ex2"), t("ex3")];
+  const domains: { key: "traffic" | "family" | "land"; icon: IconName }[] = [
+    { key: "traffic", icon: "car" },
+    { key: "family", icon: "home" },
+    { key: "land", icon: "map" },
+  ];
 
   const tiles: { icon: IconName; label: string; go: () => void }[] = [
     { icon: "people", label: t("lawyersBtn"), go: () => navigation.navigate("Lawyers") },
@@ -88,7 +119,7 @@ export default function HomeScreen({ navigation }: Props) {
           <Label>{t("questionLabel")}</Label>
           <TextInput
             style={[s.input, focused && s.inputFocused]}
-            placeholder={t("askPlaceholder")}
+            placeholder={examples[ph]}
             placeholderTextColor={C.sub}
             value={q}
             onChangeText={(v) => setQ(v.slice(0, MAX_QUERY_LEN))}
@@ -126,20 +157,49 @@ export default function HomeScreen({ navigation }: Props) {
 
       <FadeInUp delay={240}>
         <View style={s.sectionHead}>
-          <Label>{t("examplesLabel")}</Label>
+          <Label>{t("browseLabel")}</Label>
         </View>
-        <Card style={{ paddingVertical: 4 }}>
-          {examples.map((ex, i) => (
-            <View key={ex}>
-              {i > 0 && <Divider style={{ marginVertical: 0 }} />}
-              <Tappable onPress={() => deliver(ask(ex, Date.now()))} style={s.row} accessibilityLabel={ex}>
-                <IconBadge name="chatbubble-ellipses" size={32} round fg={C.primary} />
-                <Text style={s.rowText}>{ex}</Text>
-                <Ionicons name="chevron-forward" size={16} color={C.sub} />
+        {domains.map((d) => {
+          const entries = CORPUS.filter((e) => e.domain === d.key);
+          const open = openDomain === d.key;
+          return (
+            <Card key={d.key} style={{ paddingVertical: 4 }}>
+              <Tappable
+                onPress={() => setOpenDomain(open ? null : d.key)}
+                style={s.row}
+                accessibilityLabel={t(`specialty_${d.key}`)}
+              >
+                <IconBadge name={d.icon} size={32} round fg={C.primary} />
+                <View style={{ flex: 1 }}>
+                  <Text style={s.rowText}>{t(`specialty_${d.key}`)}</Text>
+                  <Text style={s.rowSub}>{t("browseCount", { n: entries.length })}</Text>
+                </View>
+                <Ionicons name={open ? "chevron-up" : "chevron-down"} size={16} color={C.sub} />
               </Tappable>
-            </View>
-          ))}
-        </Card>
+              {open &&
+                entries.map((e) => (
+                  <View key={e.id}>
+                    <Divider style={{ marginVertical: 0 }} />
+                    <Tappable
+                      onPress={() => deliver(answerFor(e, bn ? e.offense_bn : e.offense_en, Date.now()))}
+                      style={s.row}
+                      accessibilityLabel={bn ? e.offense_bn : e.offense_en}
+                    >
+                      <Ionicons
+                        name={e.verdict === "illegal" ? "close-circle" : "alert-circle"}
+                        size={18}
+                        color={e.verdict === "illegal" ? C.danger : C.warn}
+                      />
+                      <Text style={s.entryText} numberOfLines={2}>
+                        {bn ? e.offense_bn : e.offense_en}
+                      </Text>
+                      <Ionicons name="chevron-forward" size={16} color={C.sub} />
+                    </Tappable>
+                  </View>
+                ))}
+            </Card>
+          );
+        })}
       </FadeInUp>
 
       <FadeInUp delay={320}>
@@ -227,6 +287,8 @@ const s = StyleSheet.create({
   sectionHead: { marginTop: 16, marginLeft: 8 },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
   rowText: { flex: 1, fontSize: 14, fontWeight: "600", color: C.text, lineHeight: 20 },
+  rowSub: { fontSize: 12, color: C.sub, marginTop: 2 },
+  entryText: { flex: 1, fontSize: 14, color: C.text, lineHeight: 20 },
   footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 24, marginBottom: 4 },
   byline: { textAlign: "center", color: C.sub, fontSize: 12, marginTop: 8 },
 });
