@@ -10,7 +10,7 @@ import { RootStackParamList } from "../nav";
 import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
 import { CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, C, Chip, display, Divider, FadeInUp, Glass, IconName, Tappable } from "../ui";
+import { Banner, Btn, C, Card, Chip, display, Divider, FadeInUp, IconName, Label, Tappable } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [q, setQ] = useState("");
+  const [focused, setFocused] = useState(false);
   const { lang, toggleLang, addHistory } = useStore();
 
   const deliver = (answer: ReturnType<typeof ask>) => {
@@ -63,82 +64,91 @@ export default function HomeScreen({ navigation }: Props) {
   return (
     <ScrollView
       style={{ backgroundColor: C.bg }}
-      contentContainerStyle={[s.wrap, { paddingTop: insets.top + 14 }]}
+      contentContainerStyle={[s.wrap, { paddingTop: insets.top + 16 }]}
       keyboardShouldPersistTaps="handled"
     >
       <FadeInUp>
         <View style={s.topRow}>
           <View style={s.brandRow}>
-            <Image source={require("../../assets/logo-mark.png")} style={{ width: 30, height: 30 }} accessibilityLabel={t("appName")} />
+            <Image source={require("../../assets/logo-mark.png")} style={{ width: 28, height: 28 }} accessibilityLabel={t("appName")} />
             <Text style={s.brand}>{t("appName")}</Text>
           </View>
           <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
-            <Ionicons name="language" size={15} color={C.text} />
+            <Ionicons name="language" size={16} color={C.text} />
             <Text style={s.langText}>{t("langToggle")}</Text>
           </Tappable>
         </View>
       </FadeInUp>
 
-      <View style={s.center}>
-        <View pointerEvents="none" style={[s.blob, s.blobGreen]} />
-        <View pointerEvents="none" style={[s.blob, s.blobBrass]} />
-        <FadeInUp>
-          <Text style={s.tagline}>{t("tagline")}</Text>
-        </FadeInUp>
+      <FadeInUp delay={60}>
+        <Text style={s.title}>{t("tagline")}</Text>
+      </FadeInUp>
 
-        <FadeInUp delay={70}>
-          <Glass style={s.composer}>
-            <TextInput
-              style={s.input}
-              placeholder={t("askPlaceholder")}
-              placeholderTextColor={C.sub}
-              value={q}
-              onChangeText={(v) => setQ(v.slice(0, MAX_QUERY_LEN))}
-              multiline
-              accessibilityLabel={t("askPlaceholder")}
-            />
-            <View style={s.composerRow}>
-              <Tappable onPress={onPhoto} style={s.attachBtn} accessibilityLabel={t("photoBtn")}>
-                <Ionicons name="camera-outline" size={20} color={C.text} />
-              </Tappable>
-              <Tappable onPress={onPdf} style={s.attachBtn} accessibilityLabel={t("pdfBtn")}>
-                <Ionicons name="document-outline" size={20} color={C.text} />
-              </Tappable>
-              <View style={{ flex: 1 }} />
-              <Tappable onPress={onAsk} disabled={!q.trim()} style={s.sendBtn} accessibilityLabel={t("askBtn")}>
-                <Ionicons name="arrow-up" size={24} color="#fff" />
-              </Tappable>
-            </View>
-          </Glass>
-        </FadeInUp>
-
-        <FadeInUp delay={140}>
-          <View style={s.chipsWrap}>
-            {examples.map((ex) => (
-              <Tappable key={ex} onPress={() => deliver(ask(ex, Date.now()))} style={s.exChip} accessibilityLabel={ex}>
-                <Text style={s.exText}>{ex}</Text>
-              </Tappable>
-            ))}
+      <FadeInUp delay={120}>
+        <Card>
+          <Label>{t("questionLabel")}</Label>
+          <TextInput
+            style={[s.input, focused && s.inputFocused]}
+            placeholder={t("askPlaceholder")}
+            placeholderTextColor={C.sub}
+            value={q}
+            onChangeText={(v) => setQ(v.slice(0, MAX_QUERY_LEN))}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            multiline
+            accessibilityLabel={t("questionLabel")}
+          />
+          <Btn label={t("askBtn")} icon="send" onPress={onAsk} disabled={!q.trim()} style={{ marginBottom: 0 }} />
+          <View style={s.attachRow}>
+            <Tappable onPress={onPhoto} style={s.attach} accessibilityLabel={t("photoBtn")}>
+              <Ionicons name="camera-outline" size={18} color={C.text} />
+              <Text style={s.attachText}>{t("photoBtn")}</Text>
+            </Tappable>
+            <Tappable onPress={onPdf} style={s.attach} accessibilityLabel={t("pdfBtn")}>
+              <Ionicons name="document-outline" size={18} color={C.text} />
+              <Text style={s.attachText}>{t("pdfBtn")}</Text>
+            </Tappable>
           </View>
-        </FadeInUp>
-      </View>
+        </Card>
+      </FadeInUp>
 
-      <FadeInUp delay={200}>
-        <Glass style={s.linksGlass}>
-          {quickLinks.map((l, i) => (
-            <View key={l.label}>
+      <FadeInUp delay={180}>
+        <View style={s.sectionHead}>
+          <Label>{t("examplesLabel")}</Label>
+        </View>
+        <Card style={{ paddingVertical: 4 }}>
+          {examples.map((ex, i) => (
+            <View key={ex}>
               {i > 0 && <Divider style={{ marginVertical: 0 }} />}
-              <Tappable onPress={l.go} style={s.linkRow} accessibilityLabel={l.label}>
-                <Ionicons name={l.icon} size={20} color={C.text} />
-                <Text style={s.linkText}>{l.label}</Text>
-                <Ionicons name="chevron-forward" size={20} color={C.sub} />
+              <Tappable onPress={() => deliver(ask(ex, Date.now()))} style={s.row} accessibilityLabel={ex}>
+                <Ionicons name="help-circle-outline" size={20} color={C.primary} />
+                <Text style={s.rowText}>{ex}</Text>
+                <Ionicons name="chevron-forward" size={16} color={C.sub} />
               </Tappable>
             </View>
           ))}
-        </Glass>
+        </Card>
       </FadeInUp>
 
-      <FadeInUp delay={260}>
+      <FadeInUp delay={240}>
+        <View style={s.sectionHead}>
+          <Label>{t("moreLabel")}</Label>
+        </View>
+        <Card style={{ paddingVertical: 4 }}>
+          {quickLinks.map((l, i) => (
+            <View key={l.label}>
+              {i > 0 && <Divider style={{ marginVertical: 0 }} />}
+              <Tappable onPress={l.go} style={s.row} accessibilityLabel={l.label}>
+                <Ionicons name={l.icon} size={20} color={C.text} />
+                <Text style={s.rowText}>{l.label}</Text>
+                <Ionicons name="chevron-forward" size={16} color={C.sub} />
+              </Tappable>
+            </View>
+          ))}
+        </Card>
+      </FadeInUp>
+
+      <FadeInUp delay={300}>
         <View style={s.footerRow}>
           <Chip icon="library-outline" text={`${t("corpusNote")}: ${CORPUS_VERSION}`} />
           <Chip icon="globe-outline" text={lang === "bn" ? "বাংলা" : "English"} />
@@ -151,15 +161,15 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 20, paddingBottom: 32, flexGrow: 1 },
+  wrap: { padding: 20, paddingBottom: 32 },
   topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  brand: { fontSize: 20, ...display, color: C.text },
+  brand: { fontSize: 18, ...display, color: C.text },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    minHeight: 44,
+    minHeight: 40,
     borderWidth: 1,
     borderColor: C.border,
     backgroundColor: C.card,
@@ -168,59 +178,41 @@ const s = StyleSheet.create({
     paddingVertical: 8,
   },
   langText: { color: C.text, fontWeight: "600", fontSize: 14 },
-  center: { flexGrow: 1, justifyContent: "center", paddingVertical: 32 },
-  tagline: {
-    fontSize: 28,
-    ...display,
-    lineHeight: 36,
-    color: C.text,
-    textAlign: "center",
-    marginBottom: 24,
-    paddingHorizontal: 8,
-  },
-  composer: { padding: 8 },
-  linksGlass: { paddingHorizontal: 16, paddingVertical: 4, marginVertical: 8, borderRadius: 16 },
-  blob: { position: "absolute", borderRadius: 999 },
-  blobGreen: { width: 260, height: 260, top: -20, left: -80, backgroundColor: "rgba(15,93,68,0.14)" },
-  blobBrass: { width: 220, height: 220, bottom: -32, right: -64, backgroundColor: "rgba(217,161,59,0.18)" },
+  title: { fontSize: 24, ...display, lineHeight: 32, color: C.text, marginTop: 24, marginBottom: 12 },
   input: {
-    minHeight: 72,
-    maxHeight: 160,
+    minHeight: 96,
+    maxHeight: 180,
     fontSize: 16,
     lineHeight: 24,
     color: C.text,
     textAlignVertical: "top",
-    paddingHorizontal: 12,
-    paddingTop: 12,
-    paddingBottom: 8,
-  },
-  composerRow: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 2, paddingBottom: 2 },
-  attachBtn: {
-    width: 44,
-    height: 44,
+    backgroundColor: C.bg,
+    borderWidth: 1,
+    borderColor: C.border,
     borderRadius: 12,
-    backgroundColor: C.primarySoft,
+    padding: 12,
+    marginBottom: 12,
+  },
+  inputFocused: { borderColor: C.primary },
+  attachRow: { flexDirection: "row", gap: 8, marginTop: 12 },
+  attach: {
+    flex: 1,
+    minHeight: 44,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  },
-  sendBtn: {
-    width: 48,
-    height: 48,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: C.border,
+    backgroundColor: C.card,
     borderRadius: 12,
-    backgroundColor: C.primary,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 8,
   },
-  chipsWrap: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 16 },
-  exChip: {
-    backgroundColor: C.primarySoft,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  exText: { fontSize: 14, color: C.primaryDeep, fontWeight: "600" },
-  linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
-  linkText: { flex: 1, fontSize: 16, fontWeight: "600", color: C.text },
-  footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 12, marginBottom: 4 },
+  attachText: { fontSize: 14, fontWeight: "600", color: C.text },
+  sectionHead: { marginTop: 16, marginLeft: 4 },
+  row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
+  rowText: { flex: 1, fontSize: 14, fontWeight: "600", color: C.text, lineHeight: 20 },
+  footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 24, marginBottom: 4 },
   byline: { textAlign: "center", color: C.sub, fontSize: 12, marginTop: 8 },
 });

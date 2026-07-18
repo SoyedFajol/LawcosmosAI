@@ -14,7 +14,6 @@ import {
   ViewStyle,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 
 export type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -261,16 +260,6 @@ export function Avatar({ name, size = 48 }: { name: string; size?: number }) {
   );
 }
 
-/** Glassmorphic surface — real backdrop blur on iOS/web; Android renders the
- *  translucent-tint fallback, which with the light border still reads as glass. */
-export function Glass({ children, style, intensity = 40 }: { children: React.ReactNode; style?: ViewStyle; intensity?: number }) {
-  return (
-    <BlurView intensity={intensity} tint="light" style={[s.glass, style]}>
-      {children}
-    </BlurView>
-  );
-}
-
 export function Divider({ style }: { style?: ViewStyle }) {
   return <View style={[{ height: 1, backgroundColor: C.border, marginVertical: 12 }, style]} />;
 }
@@ -313,13 +302,6 @@ const s = StyleSheet.create({
     borderRadius: R.m,
     padding: 12,
     marginVertical: 8,
-  },
-  glass: {
-    overflow: "hidden",
-    borderRadius: R.xl,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.65)",
-    backgroundColor: "rgba(255,255,255,0.55)",
   },
   bannerText: { flex: 1, fontSize: F.s, lineHeight: 20, fontWeight: "500" },
 });
