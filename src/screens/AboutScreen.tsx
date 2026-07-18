@@ -5,7 +5,7 @@ import { Image, Linking, ScrollView, StyleSheet, Text, View } from "react-native
 import { useTranslation } from "react-i18next";
 import { Btn, C, Card, Chip, display, FadeInUp, IconBadge, IconName } from "../ui";
 
-const CONTACT = "tariqbin004@gmail.com";
+const CONTACT = "soyedsf@gmail.com";
 const VERSION = require("../../package.json").version as string;
 
 export default function AboutScreen() {

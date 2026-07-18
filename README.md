@@ -60,7 +60,7 @@ Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retr
 
 ## Contact
 
-**The Mavericks** · Found a wrong answer? Email **tariqbin004@gmail.com** — corpus corrections are the highest-priority issue type.
+**The Mavericks** · Found a wrong answer? Email **soyedsf@gmail.com** — corpus corrections are the highest-priority issue type.
 
 ## License
 
