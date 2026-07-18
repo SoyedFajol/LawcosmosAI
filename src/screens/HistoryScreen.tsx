@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -10,9 +10,21 @@ import { Btn, C, Card, FadeInUp, IconBadge } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "History">;
 
-export default function HistoryScreen(_: Props) {
+export default function HistoryScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const { history, clearHistory, lang } = useStore();
+
+  // Destructive action needs a confirm step; RN-web's Alert is a no-op, so use confirm() there.
+  const onClear = () => {
+    if (Platform.OS === "web") {
+      if ((globalThis as any).confirm?.(`${t("clearConfirmTitle")}\n${t("clearConfirmBody")}`)) clearHistory();
+      return;
+    }
+    Alert.alert(t("clearConfirmTitle"), t("clearConfirmBody"), [
+      { text: t("cancel"), style: "cancel" },
+      { text: t("clearHistory"), style: "destructive", onPress: clearHistory },
+    ]);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: C.bg, padding: 20 }}>
@@ -23,6 +35,7 @@ export default function HistoryScreen(_: Props) {
           <FadeInUp style={s.empty}>
             <IconBadge name="time" fg={C.sub} bg={C.primarySoft} size={72} round />
             <Text style={s.emptyText}>{t("historyEmpty")}</Text>
+            <Btn label={t("askFirst")} icon="arrow-forward" onPress={() => navigation.popToTop()} />
           </FadeInUp>
         }
         renderItem={({ item, index }) => {
@@ -51,7 +64,7 @@ export default function HistoryScreen(_: Props) {
           );
         }}
       />
-      {history.length > 0 && <Btn label={t("clearHistory")} icon="trash" variant="danger" onPress={clearHistory} />}
+      {history.length > 0 && <Btn label={t("clearHistory")} icon="trash" variant="danger" onPress={onClear} />}
     </View>
   );
 }

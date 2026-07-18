@@ -142,6 +142,7 @@ export default function HomeScreen({ navigation }: Props) {
           <Chip icon="globe-outline" text={lang === "bn" ? "বাংলা" : "English"} />
         </View>
         <Banner text={t("disclaimer")} />
+        <Text style={s.byline}>© 2026 · {t("byLine")}</Text>
       </FadeInUp>
     </ScrollView>
   );
@@ -226,4 +227,5 @@ const s = StyleSheet.create({
   linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, paddingHorizontal: 8 },
   linkText: { flex: 1, fontSize: 16, fontWeight: "600", color: C.text },
   footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 12, marginBottom: 4 },
+  byline: { textAlign: "center", color: C.sub, fontSize: 12, marginTop: 8 },
 });

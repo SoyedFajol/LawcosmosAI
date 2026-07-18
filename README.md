@@ -2,6 +2,8 @@
 
 **আইন জানুন। খরচ জানুন। আইনজীবী নিন।** · Know the law. Know the cost. Get a lawyer.
 
+Built by **The Mavericks**.
+
 Bangla-first legal information app for Bangladesh. Ask a question → see the applicable law + section, a legal/illegal verdict, the exact penalty, and what to do next — every answer quoted **verbatim** from a versioned, human-cited law corpus. Unknown questions get an honest "cannot verify" and one-tap lawyer escalation; the app never guesses. One Expo codebase → **Android app + web app**.
 
 > ⚠️ **Legal information, not legal advice.** Consult a lawyer before important decisions.
@@ -52,7 +54,7 @@ Answers come verbatim from [src/corpus.ts](src/corpus.ts) via deterministic retr
 
 ## Contact
 
-Found a wrong answer? Email **tariqbin004@gmail.com** — corpus corrections are the highest-priority issue type.
+**The Mavericks** · Found a wrong answer? Email **tariqbin004@gmail.com** — corpus corrections are the highest-priority issue type.
 
 ## License
 

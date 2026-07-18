@@ -1,7 +1,7 @@
 // THE ANSWER CARD — the one screen the whole product lives on.
 // 5 fields: law+citation, verdict, penalty, next steps, lawyer button. Disclaimer ALWAYS (A6).
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Share, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -29,6 +29,21 @@ export default function AnswerScreen({ route, navigation }: Props) {
   const { answer } = route.params;
   const e = answer.entry;
   const bn = lang === "bn";
+
+  // Answers should travel: plain-text share with citation + disclaimer + app link.
+  const onShare = () => {
+    if (!e) return;
+    const message = [
+      `"${answer.query}"`,
+      `${t("verdictLabel")}: ${e.verdict === "illegal" ? t("illegal") : t("civil")}`,
+      `${t("lawLabel")}: ${bn ? e.act_bn : e.act_en} — ${e.section}`,
+      `${t("penaltyLabel")}: ${bn ? e.penalty_bn : e.penalty_en}`,
+      "",
+      t("disclaimer"),
+      "https://soyedfajol.github.io/LawcosmosAI/",
+    ].join("\n");
+    Share.share({ message }).catch(() => {}); // user cancelled / share unsupported (older web): silently ignore
+  };
 
   const tone =
     e == null
@@ -94,6 +109,7 @@ export default function AnswerScreen({ route, navigation }: Props) {
 
       <FadeInUp delay={210}>
         <Btn label={t("needLawyer")} icon="people" variant="success" onPress={() => navigation.navigate("Lawyers")} />
+        {e != null && <Btn label={t("shareBtn")} icon="share-social" variant="ghost" onPress={onShare} />}
         <Btn label={t("backHome")} icon="home" variant="ghost" onPress={() => navigation.popToTop()} />
         <Banner text={t("disclaimer")} />
       </FadeInUp>
