@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../nav";
 import { useStore } from "../store";
-import { Banner, Btn, C, Card, Chip, Divider, FadeInUp, IconBadge, IconName, Label } from "../ui";
+import { Banner, Btn, C, Card, Chip, Divider, FadeInUp, IconBadge, IconName, Label, serif } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Answer">;
 
@@ -32,7 +32,7 @@ export default function AnswerScreen({ route, navigation }: Props) {
 
   const tone =
     e == null
-      ? { fg: "#475569", soft: "#EEF1F6", icon: "help-circle" as IconName, text: t("cannotVerify") }
+      ? { fg: C.sub, soft: C.primarySoft, icon: "help-circle" as IconName, text: t("cannotVerify") }
       : e.verdict === "illegal"
         ? { fg: C.danger, soft: C.dangerSoft, icon: "close-circle" as IconName, text: t("illegal") }
         : { fg: C.warn, soft: C.warnSoft, icon: "alert-circle" as IconName, text: t("civil") };
@@ -107,7 +107,7 @@ const s = StyleSheet.create({
   query: { flex: 1, fontSize: 15.5, fontStyle: "italic", color: C.sub, lineHeight: 22 },
   verdictCard: { borderRadius: 20, borderWidth: 1.5, padding: 16, marginVertical: 7 },
   verdictRow: { flexDirection: "row", alignItems: "center", gap: 12 },
-  verdict: { fontSize: 19, fontWeight: "800", lineHeight: 26 },
+  verdict: { fontSize: 20, fontFamily: serif, fontWeight: "700", lineHeight: 27 },
   offense: { fontSize: 15, color: C.text, lineHeight: 23, marginTop: 12 },
   sectionHead: { flexDirection: "row", alignItems: "center", gap: 6 },
   body: { fontSize: 16.5, color: C.text, lineHeight: 26 },

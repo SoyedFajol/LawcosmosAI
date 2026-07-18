@@ -70,5 +70,5 @@ const s = StyleSheet.create({
   chipRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 10 },
   row: { flexDirection: "row", alignItems: "center", gap: 12 },
   value: { fontSize: 16, color: C.text, fontWeight: "600" },
-  fee: { fontSize: 21, fontWeight: "800", color: C.primary },
+  fee: { fontSize: 21, fontWeight: "800", color: C.accentDeep },
 });

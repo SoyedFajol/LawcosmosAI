@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
@@ -11,7 +10,7 @@ import { RootStackParamList } from "../nav";
 import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
 import { CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, Btn, C, Card, Chip, FadeInUp, IconBadge, IconName, Tappable } from "../ui";
+import { Banner, C, Card, Chip, Divider, FadeInUp, IconName, serif, Tappable } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -53,34 +52,40 @@ export default function HomeScreen({ navigation }: Props) {
     }
   };
 
-  const quickLinks: { icon: IconName; fg: string; bg: string; label: string; go: () => void }[] = [
-    { icon: "people", fg: C.ok, bg: C.okSoft, label: t("lawyersBtn"), go: () => navigation.navigate("Lawyers") },
-    { icon: "time", fg: C.primary, bg: C.primarySoft, label: t("historyBtn"), go: () => navigation.navigate("History") },
-    { icon: "shield-checkmark", fg: C.accent, bg: C.accentSoft, label: t("aboutBtn"), go: () => navigation.navigate("About") },
+  const examples = [t("ex1"), t("ex2"), t("ex3")];
+
+  const quickLinks: { icon: IconName; label: string; go: () => void }[] = [
+    { icon: "people-outline", label: t("lawyersBtn"), go: () => navigation.navigate("Lawyers") },
+    { icon: "time-outline", label: t("historyBtn"), go: () => navigation.navigate("History") },
+    { icon: "shield-checkmark-outline", label: t("aboutBtn"), go: () => navigation.navigate("About") },
   ];
 
   return (
-    <ScrollView style={{ backgroundColor: C.bg }} contentContainerStyle={[s.wrap, { paddingTop: insets.top + 16 }]}>
+    <ScrollView
+      style={{ backgroundColor: C.bg }}
+      contentContainerStyle={[s.wrap, { paddingTop: insets.top + 14 }]}
+      keyboardShouldPersistTaps="handled"
+    >
       <FadeInUp>
         <View style={s.topRow}>
           <View style={s.brandRow}>
-            <IconBadge name="scale" fg="#fff" bg={C.primary} size={38} />
+            <Image source={require("../../assets/logo-mark.png")} style={{ width: 30, height: 30 }} accessibilityLabel={t("appName")} />
             <Text style={s.brand}>{t("appName")}</Text>
           </View>
           <Tappable onPress={toggleLang} style={s.langBtn} accessibilityLabel={t("langToggle")}>
-            <Ionicons name="language" size={16} color={C.primary} />
+            <Ionicons name="language" size={15} color={C.text} />
             <Text style={s.langText}>{t("langToggle")}</Text>
           </Tappable>
         </View>
       </FadeInUp>
 
-      <FadeInUp delay={70}>
-        <LinearGradient colors={C.heroGrad} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.hero}>
-          <View pointerEvents="none" style={[s.orb, s.orb1]} />
-          <View pointerEvents="none" style={[s.orb, s.orb2]} />
-          <Text style={s.heroTitle}>{t("tagline")}</Text>
+      <View style={s.center}>
+        <FadeInUp>
+          <Text style={s.tagline}>{t("tagline")}</Text>
+        </FadeInUp>
 
-          <View style={s.askCard}>
+        <FadeInUp delay={70}>
+          <View style={s.composer}>
             <TextInput
               style={s.input}
               placeholder={t("askPlaceholder")}
@@ -90,37 +95,50 @@ export default function HomeScreen({ navigation }: Props) {
               multiline
               accessibilityLabel={t("askPlaceholder")}
             />
-            <Btn label={t("askBtn")} icon="arrow-forward" variant="accent" onPress={onAsk} disabled={!q.trim()} style={{ marginBottom: 0 }} />
+            <View style={s.composerRow}>
+              <Tappable onPress={onPhoto} style={s.attachBtn} accessibilityLabel={t("photoBtn")}>
+                <Ionicons name="camera-outline" size={20} color={C.text} />
+              </Tappable>
+              <Tappable onPress={onPdf} style={s.attachBtn} accessibilityLabel={t("pdfBtn")}>
+                <Ionicons name="document-outline" size={19} color={C.text} />
+              </Tappable>
+              <View style={{ flex: 1 }} />
+              <Tappable onPress={onAsk} disabled={!q.trim()} style={s.sendBtn} accessibilityLabel={t("askBtn")}>
+                <Ionicons name="arrow-up" size={22} color="#fff" />
+              </Tappable>
+            </View>
           </View>
+        </FadeInUp>
 
-          <View style={s.tileRow}>
-            <Tappable onPress={onPhoto} style={s.tile} accessibilityLabel={t("photoBtn")}>
-              <Ionicons name="camera" size={18} color="#fff" />
-              <Text style={s.tileText}>{t("photoBtn")}</Text>
-            </Tappable>
-            <Tappable onPress={onPdf} style={s.tile} accessibilityLabel={t("pdfBtn")}>
-              <Ionicons name="document-text" size={18} color="#fff" />
-              <Text style={s.tileText}>{t("pdfBtn")}</Text>
-            </Tappable>
+        <FadeInUp delay={140}>
+          <View style={s.chipsWrap}>
+            {examples.map((ex) => (
+              <Tappable key={ex} onPress={() => deliver(ask(ex, Date.now()))} style={s.exChip} accessibilityLabel={ex}>
+                <Text style={s.exText}>{ex}</Text>
+              </Tappable>
+            ))}
           </View>
-        </LinearGradient>
-      </FadeInUp>
-
-      <View style={{ marginTop: 10 }}>
-        {quickLinks.map((l, i) => (
-          <FadeInUp key={l.label} delay={140 + i * 60}>
-            <Card onPress={l.go} style={s.linkCard}>
-              <IconBadge name={l.icon} fg={l.fg} bg={l.bg} />
-              <Text style={s.linkText}>{l.label}</Text>
-              <Ionicons name="chevron-forward" size={20} color={C.sub} />
-            </Card>
-          </FadeInUp>
-        ))}
+        </FadeInUp>
       </View>
 
-      <FadeInUp delay={340}>
+      <FadeInUp delay={200}>
+        <Card style={{ paddingVertical: 6 }}>
+          {quickLinks.map((l, i) => (
+            <View key={l.label}>
+              {i > 0 && <Divider style={{ marginVertical: 0 }} />}
+              <Tappable onPress={l.go} style={s.linkRow} accessibilityLabel={l.label}>
+                <Ionicons name={l.icon} size={20} color={C.text} />
+                <Text style={s.linkText}>{l.label}</Text>
+                <Ionicons name="chevron-forward" size={18} color={C.sub} />
+              </Tappable>
+            </View>
+          ))}
+        </Card>
+      </FadeInUp>
+
+      <FadeInUp delay={260}>
         <View style={s.footerRow}>
-          <Chip icon="library" text={`${t("corpusNote")}: ${CORPUS_VERSION}`} />
+          <Chip icon="library-outline" text={`${t("corpusNote")}: ${CORPUS_VERSION}`} />
           <Chip icon="globe-outline" text={lang === "bn" ? "বাংলা" : "English"} />
         </View>
         <Banner text={t("disclaimer")} />
@@ -130,57 +148,83 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 20, paddingBottom: 36 },
-  topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
-  brandRow: { flexDirection: "row", alignItems: "center", gap: 10 },
-  brand: { fontSize: 22, fontWeight: "800", color: C.primary, letterSpacing: -0.3 },
+  wrap: { padding: 20, paddingBottom: 32, flexGrow: 1 },
+  topRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 9 },
+  brand: { fontSize: 19, fontFamily: serif, fontWeight: "700", color: C.text },
   langBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    borderWidth: 1,
+    borderColor: C.border,
+    backgroundColor: C.card,
+    borderRadius: 999,
+    paddingHorizontal: 13,
+    paddingVertical: 7,
+  },
+  langText: { color: C.text, fontWeight: "600", fontSize: 13.5 },
+  center: { flexGrow: 1, justifyContent: "center", paddingVertical: 28 },
+  tagline: {
+    fontFamily: serif,
+    fontSize: 28,
+    lineHeight: 38,
+    color: C.text,
+    textAlign: "center",
+    marginBottom: 22,
+    paddingHorizontal: 8,
+  },
+  composer: {
+    backgroundColor: C.card,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: C.border,
+    padding: 8,
+    shadowColor: "#1D1B16",
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 2,
+  },
+  input: {
+    minHeight: 72,
+    maxHeight: 160,
+    fontSize: 16,
+    lineHeight: 23,
+    color: C.text,
+    textAlignVertical: "top",
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    paddingBottom: 6,
+  },
+  composerRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 2, paddingBottom: 2 },
+  attachBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: C.primarySoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sendBtn: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: C.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chipsWrap: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 16 },
+  exChip: {
     backgroundColor: C.card,
     borderWidth: 1,
     borderColor: C.border,
     borderRadius: 999,
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingVertical: 9,
   },
-  langText: { color: C.primary, fontWeight: "700", fontSize: 14 },
-  hero: { borderRadius: 24, padding: 20, overflow: "hidden" },
-  orb: { position: "absolute", borderRadius: 999 },
-  orb1: { width: 220, height: 220, top: -90, right: -70, backgroundColor: "rgba(255,255,255,0.07)" },
-  orb2: { width: 140, height: 140, bottom: -60, left: -40, backgroundColor: "rgba(180,83,9,0.28)" },
-  heroTitle: { color: "#fff", fontSize: 23, fontWeight: "800", lineHeight: 32, marginBottom: 16 },
-  askCard: { backgroundColor: C.card, borderRadius: 16, padding: 12 },
-  input: {
-    minHeight: 84,
-    fontSize: 16,
-    color: C.text,
-    textAlignVertical: "top",
-    backgroundColor: C.bg,
-    borderWidth: 1,
-    borderColor: C.border,
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 10,
-  },
-  tileRow: { flexDirection: "row", gap: 10, marginTop: 12 },
-  tile: {
-    flex: 1,
-    minHeight: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    backgroundColor: "rgba(255,255,255,0.14)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.22)",
-    borderRadius: 14,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-  },
-  tileText: { color: "#fff", fontWeight: "700", fontSize: 13.5 },
-  linkCard: { flexDirection: "row", alignItems: "center", gap: 14 },
-  linkText: { flex: 1, fontSize: 16, fontWeight: "700", color: C.text },
-  footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 14, marginBottom: 4 },
+  exText: { fontSize: 13.5, color: C.sub, fontWeight: "500" },
+  linkRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, paddingHorizontal: 6 },
+  linkText: { flex: 1, fontSize: 15.5, fontWeight: "600", color: C.text },
+  footerRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginTop: 12, marginBottom: 4 },
 });

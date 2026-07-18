@@ -1,10 +1,12 @@
-// Design system — "Trust & Authority": deep navy + gold accent on soft slate surfaces.
-// Tokens + a small animated kit. Micro-interactions respect the OS reduce-motion setting.
+// Design system — minimal modern AI: warm paper, ink text, one ember accent.
+// Serif display for brand moments, pill buttons, hairline borders, quiet shadows.
+// Micro-interactions respect the OS reduce-motion setting.
 import React from "react";
 import {
   AccessibilityInfo,
   Animated,
   Easing,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -16,33 +18,39 @@ import { Ionicons } from "@expo/vector-icons";
 export type IconName = keyof typeof Ionicons.glyphMap;
 
 export const C = {
-  bg: "#F4F6FB",
+  bg: "#FAF9F5",
   card: "#FFFFFF",
-  primary: "#1E3A8A",
-  primaryDark: "#13255C",
-  primarySoft: "#E8EDFB",
-  accent: "#B45309",
-  accentSoft: "#FBF0DF",
-  danger: "#DC2626",
-  dangerSoft: "#FDECEC",
-  ok: "#15803D",
-  okSoft: "#E8F5EC",
-  warn: "#B45309",
-  warnSoft: "#FFF6E9",
+  primary: "#1D1B16",
+  primarySoft: "#F1EFE8",
+  accent: "#C65D3B",
+  accentDeep: "#9E4526",
+  accentSoft: "#F7E9E2",
+  danger: "#BF3B2B",
+  dangerSoft: "#F9E9E6",
+  ok: "#3E7C4F",
+  okSoft: "#E9F2EB",
+  warn: "#A16207",
+  warnSoft: "#F8F0DC",
   bkash: "#E2136E",
-  bkashSoft: "#FDE9F2",
-  text: "#0F172A",
-  sub: "#5B6779",
-  border: "#E3E8F0",
-  heroGrad: ["#2A4CA8", "#1E3A8A", "#13255C"] as const,
+  bkashSoft: "#FCE9F1",
+  text: "#1D1B16",
+  sub: "#6B675C",
+  border: "#E7E4DB",
 };
 
+/** Serif display face for brand moments (tagline, wordmark, verdicts). */
+export const serif = Platform.select({
+  web: "Georgia, 'Times New Roman', serif",
+  ios: "Georgia",
+  default: "serif",
+});
+
 export const shadow: ViewStyle = {
-  shadowColor: "#13255C",
-  shadowOpacity: 0.08,
-  shadowRadius: 14,
-  shadowOffset: { width: 0, height: 6 },
-  elevation: 3,
+  shadowColor: "#1D1B16",
+  shadowOpacity: 0.05,
+  shadowRadius: 12,
+  shadowOffset: { width: 0, height: 4 },
+  elevation: 2,
 };
 
 export function useReducedMotion() {
@@ -110,7 +118,7 @@ export function Tappable({
       onPressOut={() => !reduced && to(1)}
     >
       {({ pressed }) => (
-        <Animated.View style={[style, { transform: [{ scale }], opacity: disabled ? 0.45 : pressed ? 0.9 : 1 }]}>
+        <Animated.View style={[style, { transform: [{ scale }], opacity: disabled ? 0.4 : pressed ? 0.85 : 1 }]}>
           {children}
         </Animated.View>
       )}
@@ -135,7 +143,7 @@ const BTN = {
   success: { bg: C.ok, fg: "#FFFFFF" },
   danger: { bg: C.danger, fg: "#FFFFFF" },
   bkash: { bg: C.bkash, fg: "#FFFFFF" },
-  ghost: { bg: C.primarySoft, fg: C.primary },
+  ghost: { bg: "transparent", fg: C.text, border: C.border },
 } as const;
 
 export function Btn({
@@ -154,9 +162,15 @@ export function Btn({
   style?: ViewStyle;
 }) {
   const v = BTN[variant];
+  const border = "border" in v ? { borderWidth: 1, borderColor: v.border } : null;
   return (
-    <Tappable onPress={onPress} disabled={disabled} accessibilityLabel={label} style={[s.btn, { backgroundColor: v.bg }, style ?? {}]}>
-      {icon && <Ionicons name={icon} size={19} color={v.fg} style={{ marginRight: 8 }} />}
+    <Tappable
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityLabel={label}
+      style={[s.btn, { backgroundColor: v.bg }, border ?? {}, style ?? {}]}
+    >
+      {icon && <Ionicons name={icon} size={18} color={v.fg} style={{ marginRight: 8 }} />}
       <Text style={[s.btnText, { color: v.fg }]}>{label}</Text>
     </Tappable>
   );
@@ -167,7 +181,7 @@ export function Label({ children, color = C.sub }: { children: React.ReactNode; 
 }
 
 /** Small meta pill: optional icon + text. */
-export function Chip({ icon, text, fg = C.sub, bg = C.bg }: { icon?: IconName; text: string; fg?: string; bg?: string }) {
+export function Chip({ icon, text, fg = C.sub, bg = C.primarySoft }: { icon?: IconName; text: string; fg?: string; bg?: string }) {
   return (
     <View style={[s.chip, { backgroundColor: bg }]}>
       {icon && <Ionicons name={icon} size={13} color={fg} style={{ marginRight: 5 }} />}
@@ -179,7 +193,7 @@ export function Chip({ icon, text, fg = C.sub, bg = C.bg }: { icon?: IconName; t
 /** Icon inside a tinted rounded square — the visual anchor of cards and rows. */
 export function IconBadge({
   name,
-  fg = C.primary,
+  fg = C.text,
   bg = C.primarySoft,
   size = 42,
   round,
@@ -208,7 +222,7 @@ export function IconBadge({
 
 /** Inline notice bar (demo/data warnings, disclaimers). */
 export function Banner({ text, tone = "warn", icon }: { text: string; tone?: "warn" | "info"; icon?: IconName }) {
-  const fg = tone === "warn" ? C.warn : C.primary;
+  const fg = tone === "warn" ? C.warn : C.sub;
   const bg = tone === "warn" ? C.warnSoft : C.primarySoft;
   return (
     <View style={[s.banner, { backgroundColor: bg }]}>
@@ -232,7 +246,7 @@ export function Avatar({ name, size = 48 }: { name: string; size?: number }) {
         width: size,
         height: size,
         borderRadius: size / 2,
-        backgroundColor: C.primary,
+        backgroundColor: C.accent,
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -249,7 +263,7 @@ export function Divider({ style }: { style?: ViewStyle }) {
 const s = StyleSheet.create({
   card: {
     backgroundColor: C.card,
-    borderRadius: 18,
+    borderRadius: 20,
     padding: 16,
     marginVertical: 7,
     borderWidth: 1,
@@ -257,17 +271,17 @@ const s = StyleSheet.create({
     ...shadow,
   },
   btn: {
-    minHeight: 52,
-    borderRadius: 14,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
+    minHeight: 50,
+    borderRadius: 999,
+    paddingVertical: 13,
+    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 6,
   },
-  btnText: { fontSize: 16, fontWeight: "700" },
-  label: { fontSize: 12, fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 4 },
+  btnText: { fontSize: 15.5, fontWeight: "600" },
+  label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 },
   chip: {
     flexDirection: "row",
     alignItems: "center",
@@ -281,7 +295,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 8,
-    borderRadius: 14,
+    borderRadius: 16,
     padding: 12,
     marginVertical: 7,
   },

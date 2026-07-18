@@ -78,4 +78,18 @@ pass(`abuse cap: query truncated to ${MAX_QUERY_LEN} chars`);
 assert.equal(retrieveLaw("   "), null);
 pass("empty input -> no answer");
 
+// 10. Home-screen example chips (i18n ex1-ex3, both languages) must never dead-end.
+const CHIP_QUESTIONS = [
+  "যৌতুক চাওয়া কি অপরাধ?",
+  "হেলমেট ছাড়া বাইক চালালে কী হয়?",
+  "তালাকের নিয়ম কী?",
+  "Is demanding dowry a crime?",
+  "Riding without a helmet — what happens?",
+  "What are the rules for divorce?",
+];
+for (const q of CHIP_QUESTIONS) {
+  assert(ask(q, NOW).entry != null, `example chip must resolve: "${q}"`);
+}
+pass(`example chips: ${CHIP_QUESTIONS.length}/${CHIP_QUESTIONS.length} resolve to corpus entries`);
+
 console.log(`\nALL CHECKS PASSED (${n} groups)`);

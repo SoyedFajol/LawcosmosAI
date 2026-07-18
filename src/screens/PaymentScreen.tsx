@@ -1,7 +1,6 @@
 // MOCK bKash checkout — SANDBOX ONLY (gate B3 / D). No real money, no real booking.
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -28,7 +27,7 @@ export default function PaymentScreen({ route, navigation }: Props) {
   if (!lawyer) return null;
 
   return (
-    <LinearGradient colors={["#E2136E", "#B80D57"]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: C.bg }}>
       <ScrollView contentContainerStyle={s.wrap}>
         <Card style={s.sheet}>
           <View style={{ alignItems: "center" }}>
@@ -66,7 +65,7 @@ export default function PaymentScreen({ route, navigation }: Props) {
           )}
         </Card>
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 

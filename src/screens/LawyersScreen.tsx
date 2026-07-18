@@ -80,5 +80,5 @@ const s = StyleSheet.create({
     borderTopColor: C.border,
   },
   feeLabel: { fontSize: 12, color: C.sub, fontWeight: "600" },
-  fee: { fontSize: 20, fontWeight: "800", color: C.primary },
+  fee: { fontSize: 20, fontWeight: "800", color: C.accentDeep },
 });
