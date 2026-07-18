@@ -33,7 +33,8 @@ module.exports = async (req, res) => {
   recent.push(now);
   hits.set(ip, recent);
 
-  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+  // gemini-flash-latest: rolling alias, survives model retirements (2.5-flash is closed to new users)
+  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-goog-api-key": key },
     body: JSON.stringify({
