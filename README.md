@@ -6,6 +6,11 @@ Bangla-first legal information app for Bangladesh. Ask a question → see the ap
 
 > ⚠️ **Legal information, not legal advice.** Consult a lawyer before important decisions.
 
+## Live
+
+- 🌐 **Web:** https://soyedfajol.github.io/LawcosmosAI/ (GitHub Pages) · Vercel mirror: import this repo at [vercel.com/new](https://vercel.com/new) — config is in [vercel.json](vercel.json)
+- 📱 **Android APK:** https://github.com/SoyedFajol/LawcosmosAI/releases/latest — download `LawCosmosAI.apk` and install directly (soft-launch channel; Play Store is phase 2)
+
 ## Features
 
 - 🔍 Ask in Bangla or English — deterministic retrieval over a cited corpus (zero hallucination by construction)
@@ -28,14 +33,9 @@ npm run build:web     # static web build -> dist/
 
 **Web (GitHub Pages, free):** pushing to `main` runs [.github/workflows/deploy-web.yml](.github/workflows/deploy-web.yml) — typecheck + test suite + static export, then deploys to `https://<user>.github.io/<repo>/`. No secrets required.
 
-**Android (EAS Build, free tier):**
+**Android APK (GitHub Actions, free):** pushing a `v*` tag runs [.github/workflows/build-android.yml](.github/workflows/build-android.yml) — it builds a release APK and attaches it to a GitHub Release. No accounts or secrets needed. (EAS Build profiles in [eas.json](eas.json) remain as an alternative: `npx eas-cli build -p android --profile production`.)
 
-```bash
-npx eas-cli login                              # free Expo account
-npx eas-cli build -p android --profile production   # produces an installable APK
-```
-
-Distribute the APK directly (link/QR) for the soft launch; Play Store submission can come later.
+**Vercel (free, with visitor analytics):** import the repo at [vercel.com/new](https://vercel.com/new) → framework preset **Other** (build/output come from [vercel.json](vercel.json)) → after the first deploy, open the project's **Analytics** tab and click **Enable**. The build injects the analytics script automatically on Vercel only; visitors are counted anonymously (no cookies), and the mobile app stays analytics-free — as disclosed in the in-app privacy note.
 
 ## Architecture
 
