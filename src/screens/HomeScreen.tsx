@@ -10,7 +10,7 @@ import { RootStackParamList } from "../nav";
 import { ask, analyzeImage, analyzePdf, MAX_QUERY_LEN } from "../engine";
 import { CORPUS_VERSION } from "../corpus";
 import { useStore } from "../store";
-import { Banner, C, Card, Chip, display, Divider, FadeInUp, IconName, Tappable } from "../ui";
+import { Banner, C, Chip, display, Divider, FadeInUp, Glass, IconName, Tappable } from "../ui";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -80,12 +80,14 @@ export default function HomeScreen({ navigation }: Props) {
       </FadeInUp>
 
       <View style={s.center}>
+        <View pointerEvents="none" style={[s.blob, s.blobGreen]} />
+        <View pointerEvents="none" style={[s.blob, s.blobBrass]} />
         <FadeInUp>
           <Text style={s.tagline}>{t("tagline")}</Text>
         </FadeInUp>
 
         <FadeInUp delay={70}>
-          <View style={s.composer}>
+          <Glass style={s.composer}>
             <TextInput
               style={s.input}
               placeholder={t("askPlaceholder")}
@@ -107,7 +109,7 @@ export default function HomeScreen({ navigation }: Props) {
                 <Ionicons name="arrow-up" size={24} color="#fff" />
               </Tappable>
             </View>
-          </View>
+          </Glass>
         </FadeInUp>
 
         <FadeInUp delay={140}>
@@ -122,7 +124,7 @@ export default function HomeScreen({ navigation }: Props) {
       </View>
 
       <FadeInUp delay={200}>
-        <Card style={{ paddingVertical: 4 }}>
+        <Glass style={s.linksGlass}>
           {quickLinks.map((l, i) => (
             <View key={l.label}>
               {i > 0 && <Divider style={{ marginVertical: 0 }} />}
@@ -133,7 +135,7 @@ export default function HomeScreen({ navigation }: Props) {
               </Tappable>
             </View>
           ))}
-        </Card>
+        </Glass>
       </FadeInUp>
 
       <FadeInUp delay={260}>
@@ -176,18 +178,11 @@ const s = StyleSheet.create({
     marginBottom: 24,
     paddingHorizontal: 8,
   },
-  composer: {
-    backgroundColor: C.card,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: C.border,
-    padding: 8,
-    shadowColor: "#1D1B16",
-    shadowOpacity: 0.05,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 2,
-  },
+  composer: { padding: 8 },
+  linksGlass: { paddingHorizontal: 16, paddingVertical: 4, marginVertical: 8, borderRadius: 16 },
+  blob: { position: "absolute", borderRadius: 999 },
+  blobGreen: { width: 260, height: 260, top: -20, left: -80, backgroundColor: "rgba(15,93,68,0.14)" },
+  blobBrass: { width: 220, height: 220, bottom: -32, right: -64, backgroundColor: "rgba(217,161,59,0.18)" },
   input: {
     minHeight: 72,
     maxHeight: 160,
